@@ -1,20 +1,51 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import Onboarding from "./src/screens/Onboarding";
+import Splash from "./src/screens/Splash";
+import Authentication from "./src/screens/Authentication";
+import Home from "./src/screens/Home";
+import { StatusBar } from "expo-status-bar";
+import DrawerContent from "./src/components/DrawerContent";
+import { useFonts } from "expo-font";
+import { StyleSheet } from "react-native";
+
+const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
+
+const HomeDrawer = () => {
+  return (
+    <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
+      <Drawer.Screen name="Home" component={Home} />
+    </Drawer.Navigator>
+  );
+};
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    "Poppins-Bold": require("./assets/fonts/Poppins-Bold.ttf"),
+    "Poppins-Semibold": require("./assets/fonts/Poppins-SemiBold.ttf"),
+    "Poppins-Medium": require("./assets/fonts/Poppins-Medium.ttf"),
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{ headerShown: false }}
+          initialRouteName="Splash"
+        >
+          <Stack.Screen name="Splash" component={Splash} />
+          <Stack.Screen name="Onboarding" component={Onboarding} />
+          <Stack.Screen name="Authentication" component={Authentication} />
+          <Stack.Screen name="HomeDrawer" component={HomeDrawer} />
+        </Stack.Navigator>
+      </NavigationContainer>
+      <StatusBar style="dark" />
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
