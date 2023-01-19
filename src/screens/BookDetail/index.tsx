@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
 import React from "react";
 import { AntDesign } from "@expo/vector-icons";
@@ -23,8 +24,18 @@ const fadeInBottom = {
     translateY: 0,
   },
 };
+const fadeInTop = {
+  0: {
+    opacity: 0,
+    translateY: -250,
+  },
+  1: {
+    opacity: 1,
+    translateY: 0,
+  },
+};
 
-const { height } = Dimensions.get("screen");
+const { height, width } = Dimensions.get("screen");
 
 const BookDetail = ({ navigation, route }) => {
   const { item } = route.params;
@@ -38,6 +49,7 @@ const BookDetail = ({ navigation, route }) => {
         <Image
           source={{ uri: item.thumbnail }}
           style={[StyleSheet.absoluteFillObject]}
+          blurRadius={8}
         />
       </SharedElement>
       <Animatable.View
@@ -61,9 +73,48 @@ const BookDetail = ({ navigation, route }) => {
           right: 16,
           zIndex: 2,
         }}
-        color="#333"
+        color="#f6f5f5"
         onPress={() => navigation.goBack()}
       />
+
+      <Animatable.View
+        animation={fadeInTop}
+        duration={DURATION}
+        delay={DELAY + 100}
+        style={{
+          position: "absolute",
+          top: height * 0.1,
+          alignSelf: "center",
+          shadowColor: "#000",
+          shadowOpacity: 1,
+          shadowOffset: {
+            width: 0,
+            height: 5,
+          },
+          shadowRadius: 12,
+          elevation: 5,
+        }}
+        className="space-y-3"
+      >
+        <Animatable.Image
+          source={{ uri: item.thumbnail }}
+          style={{
+            width: width / 2,
+            height: height / 3,
+            borderRadius: 8,
+          }}
+          resizeMode="stretch"
+        />
+
+        <TouchableOpacity
+          activeOpacity={0.8}
+          className="items-center justify-center py-3 bg-blue-primary rounded"
+        >
+          <Text className="text-textWhite font-fontSemibold text-base">
+            Ler Agora
+          </Text>
+        </TouchableOpacity>
+      </Animatable.View>
 
       <SharedElement
         id="general.bg"
@@ -75,15 +126,21 @@ const BookDetail = ({ navigation, route }) => {
         ]}
       >
         <ScrollView
+          scrollToOverflowEnabled={true}
+          contentContainerStyle={{
+            paddingBottom: 24,
+          }}
           style={[
             StyleSheet.absoluteFillObject,
             {
-              transform: [{ translateY: -height * 0.4 }],
+              transform: [{ translateY: -height * 0.45 }],
               padding: 16,
-              borderRadius: 16,
+              borderTopLeftRadius: 24,
+              borderTopRightRadius: 24,
+              height: height * 0.45,
             },
           ]}
-          className="bg-textWhite"
+          className="bg-whiteSmoke"
         >
           <Animatable.Text
             animation={fadeInBottom}
@@ -93,22 +150,115 @@ const BookDetail = ({ navigation, route }) => {
           >
             {item.title}
           </Animatable.Text>
-          <Animatable.Text
-            animation={fadeInBottom}
-            duration={DURATION}
-            delay={DELAY + 350}
-            className="text-textBlack font-fontMedium"
-          >
-            {item.author}
-          </Animatable.Text>
-          <Animatable.Text
-            animation={fadeInBottom}
-            duration={DURATION}
-            delay={DELAY + 500}
-            className="text-textBlack font-fontMedium"
-          >
-            {item.id}
-          </Animatable.Text>
+          <View className="flex-row items-center justify-between">
+            <Animatable.Text
+              animation={fadeInBottom}
+              duration={DURATION}
+              delay={DELAY + 350}
+              className="text-grey-secondary font-fontMedium"
+            >
+              {item.author}
+            </Animatable.Text>
+            <Animatable.Text
+              animation={fadeInBottom}
+              duration={DURATION}
+              delay={DELAY + 500}
+              className="text-grey-secondary opacity-40 font-fontMedium"
+            >
+              {item.id}
+            </Animatable.Text>
+          </View>
+
+          <View className="self-center flex-row my-5 py-3 items-center justify-evenly bg-textWhite w-full rounded">
+            <View className="items-center">
+              <Text className="text-textBlack font-fontSemibold text-base">
+                4.6
+              </Text>
+              <Text className="font-fontMedium text-grey-secondary text-xs">
+                Avaliação
+              </Text>
+            </View>
+
+            <View className="h-full w-[0.5px] bg-textBlack opacity-20" />
+
+            <View className="items-center">
+              <Text className="text-textBlack font-fontSemibold text-base">
+                Port
+              </Text>
+              <Text className="font-fontMedium text-grey-secondary text-xs">
+                Idioma
+              </Text>
+            </View>
+
+            <View className="h-full w-[0.5px] bg-textBlack opacity-20" />
+
+            <View className="items-center">
+              <Text className="text-textBlack font-fontSemibold text-base">
+                304
+              </Text>
+              <Text className="font-fontMedium text-grey-secondary text-xs">
+                N° de páginas
+              </Text>
+            </View>
+          </View>
+
+          <View className="mt-3">
+            <Text className="text-textBlack font-fontSemibold text-lg">
+              Sobre o autor
+            </Text>
+
+            <Text className="font-fontMedium text-grey-secondary text-left mt-2">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+              Obcaecati velit blanditiis dolores nisi totam omnis aut
+              reprehenderit optio quam placeat neque accusamus excepturi rerum
+              ullam numquam qui sint, dolor in!
+            </Text>
+          </View>
+
+          <View className="mt-5">
+            <Text className="text-textBlack font-fontSemibold text-lg">
+              Sobre a obra
+            </Text>
+
+            <Text className="font-fontMedium text-grey-secondary text-left mt-2">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+              Obcaecati velit blanditiis dolores nisi totam omnis aut
+              reprehenderit optio quam placeat neque accusamus excepturi rerum
+              ullam numquam qui sint, dolor in! Lorem ipsum dolor sit amet
+              consectetur, adipisicing elit. Obcaecati velit blanditiis dolores
+              nisi totam omnis aut reprehenderit optio quam placeat neque
+              accusamus excepturi rerum ullam numquam qui sint, dolor in! Lorem
+              ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati
+              velit blanditiis dolores nisi totam omnis aut reprehenderit optio
+              quam placeat neque accusamus excepturi rerum ullam numquam qui
+              sint, dolor in! Lorem ipsum dolor sit amet consectetur,
+              adipisicing elit. Obcaecati velit blanditiis dolores nisi totam
+              omnis aut reprehenderit optio quam placeat neque accusamus
+              excepturi rerum ullam numquam qui sint, dolor in! sint, dolor in!
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+              Obcaecati velit blanditiis dolores nisi totam omnis aut
+              reprehenderit optio quam placeat neque accusamus excepturi rerum
+              ullam numquam qui sint, dolor in! sint, dolor in! Lorem ipsum
+              dolor sit amet consectetur, adipisicing elit. Obcaecati velit
+              blanditiis dolores nisi totam omnis aut reprehenderit optio quam
+              placeat neque accusamus excepturi rerum ullam numquam qui sint,
+              dolor in! sint, dolor in! Lorem ipsum dolor sit amet consectetur,
+              adipisicing elit. Obcaecati velit blanditiis dolores nisi totam
+              omnis aut reprehenderit optio quam placeat neque accusamus
+              excepturi rerum ullam numquam qui sint, dolor in! sint, dolor in!
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+              Obcaecati velit blanditiis dolores nisi totam omnis aut
+              reprehenderit optio quam placeat neque accusamus excepturi rerum
+              ullam numquam qui sint, dolor in! sint, dolor in! Lorem ipsum
+              dolor sit amet consectetur, adipisicing elit. Obcaecati velit
+              blanditiis dolores nisi totam omnis aut reprehenderit optio quam
+              placeat neque accusamus excepturi rerum ullam numquam qui sint,
+              dolor in! sint, dolor in! Lorem ipsum dolor sit amet consectetur,
+              adipisicing elit. Obcaecati velit blanditiis dolores nisi totam
+              omnis aut reprehenderit optio quam placeat neque accusamus
+              excepturi rerum ullam numquam qui sint, dolor in!
+            </Text>
+          </View>
         </ScrollView>
       </SharedElement>
     </View>

@@ -8,10 +8,8 @@ import {
   View,
   StyleSheet,
   SafeAreaView,
-  StatusBar,
 } from "react-native";
 const { width, height } = Dimensions.get("screen");
-import { Entypo } from "@expo/vector-icons";
 import {
   FlingGestureHandler,
   Directions,
@@ -41,7 +39,7 @@ const OverflowItems = ({ data, scrollXAnimated }) => {
           return (
             <View key={index} style={styles.itemContainer}>
               <Text
-                className="font-fontBold"
+                className="font-fontBold text-textBlack"
                 style={[styles.title]}
                 numberOfLines={1}
               >
@@ -138,7 +136,7 @@ export default function Favorites({ navigation }) {
               flex: 1,
               justifyContent: "center",
               padding: SPACING * 2,
-              marginTop: 50,
+              marginTop: 44,
             }}
             scrollEnabled={false}
             removeClippedSubviews={false}
@@ -252,7 +250,7 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     height: OVERFLOW_HEIGHT,
-    padding: SPACING * 2,
+    padding: 24,
   },
   itemContainerRow: {
     flexDirection: "row",
@@ -262,9 +260,7 @@ const styles = StyleSheet.create({
   overflowContainer: {
     height: OVERFLOW_HEIGHT,
     overflow: "hidden",
+    alignItems: "stretch",
     width: "100%",
-    position: "absolute",
-    bottom: 80,
-    // left: 48,
   },
 });

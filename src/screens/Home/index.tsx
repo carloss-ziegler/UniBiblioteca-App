@@ -16,6 +16,7 @@ import {
   FontAwesome,
   AntDesign,
   Ionicons,
+  MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import SelectDropdown from "react-native-select-dropdown";
 import { BookProps } from "../../utils/types";
@@ -82,9 +83,15 @@ const Home = ({ navigation }) => {
 
           <View className="h-[0.5px] bg-textWhite w-full mt-3" />
 
-          <View className="mt-12">
+          <View className="mt-12 justify-start">
             <DrawerItem
-              icon={<AntDesign name="hearto" size={24} color="#f6f5f5" />}
+              icon={
+                <MaterialCommunityIcons
+                  name="bookshelf"
+                  size={24}
+                  color="#f6f5f5"
+                />
+              }
               title="Meu Acervo"
               onPress={() => navigation.navigate("Favorites")}
             />

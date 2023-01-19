@@ -115,7 +115,7 @@ const Authentication = ({ navigation }) => {
             onPress={async () => {
               if (value) {
                 setLoading(true);
-                await new Promise((resolve) => setTimeout(resolve, 2000));
+                await new Promise((resolve) => setTimeout(resolve, 1500));
                 navigation.reset({
                   routes: [{ name: "Home" }],
                 });
