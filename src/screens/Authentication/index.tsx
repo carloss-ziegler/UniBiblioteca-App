@@ -113,10 +113,16 @@ const Authentication = ({ navigation }) => {
 
           <TouchableOpacity
             onPress={async () => {
-              setLoading(true);
-              await new Promise((resolve) => setTimeout(resolve, 2000));
-              navigation.navigate("Home");
-              setLoading(false);
+              if (value) {
+                setLoading(true);
+                await new Promise((resolve) => setTimeout(resolve, 2000));
+                navigation.reset({
+                  routes: [{ name: "Home" }],
+                });
+                setLoading(false);
+              } else {
+                alert("Selecione uma instituição de ensino!");
+              }
             }}
             style={{
               marginTop: 28,

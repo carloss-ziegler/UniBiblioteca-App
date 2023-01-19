@@ -70,7 +70,7 @@ export default function Favorites({ navigation }) {
       headerTitle: () => {
         return (
           <>
-            <Text className="font-fontMedium text-textBlack">Meu Acervo</Text>
+            <Text className="font-fontSemibold text-textBlack">Meu Acervo</Text>
           </>
         );
       },

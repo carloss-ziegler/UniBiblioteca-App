@@ -124,6 +124,7 @@ const Home = ({ navigation }) => {
             <DrawerItem
               icon={<Feather name="settings" size={24} color="#f6f5f5" />}
               title="Configurações"
+              onPress={() => navigation.navigate("Settings")}
             />
           </View>
 

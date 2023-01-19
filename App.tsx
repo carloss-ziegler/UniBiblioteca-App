@@ -8,6 +8,7 @@ import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 import Favorites from "./src/screens/Favorites";
 import BookDetail from "./src/screens/BookDetail";
+import Settings from "./src/screens/Settings";
 
 const Stack = createSharedElementStackNavigator();
 
@@ -34,7 +35,12 @@ export default function App() {
           <Stack.Screen name="Authentication" component={Authentication} />
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Favorites" component={Favorites} />
-          <Stack.Screen name="BookDetail" component={BookDetail} />
+          <Stack.Screen
+            name="BookDetail"
+            component={BookDetail}
+            options={{ presentation: "transparentModal" }}
+          />
+          <Stack.Screen name="Settings" component={Settings} />
         </Stack.Navigator>
       </NavigationContainer>
       <StatusBar style="dark" backgroundColor="#f6f5f5" />
