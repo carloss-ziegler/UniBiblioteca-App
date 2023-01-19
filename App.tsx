@@ -1,32 +1,15 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-} from "@react-navigation/drawer";
+import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 import Onboarding from "./src/screens/Onboarding";
 import Splash from "./src/screens/Splash";
 import Authentication from "./src/screens/Authentication";
 import Home from "./src/screens/Home";
 import { StatusBar } from "expo-status-bar";
-import DrawerContent from "./src/components/DrawerContent";
 import { useFonts } from "expo-font";
-import { StyleSheet, View } from "react-native";
+import Favorites from "./src/screens/Favorites";
+import BookDetail from "./src/screens/BookDetail";
 
-const Stack = createStackNavigator();
-const Drawer = createDrawerNavigator();
-
-// const CustomDrawer = () => {
-//   return (
-//     <Drawer.Navigator
-//       drawerContent={(props) => {
-//         return <DrawerContent {...props} />;
-//       }}
-//     >
-//       <Drawer.Screen name="Home" component={Home} />
-//     </Drawer.Navigator>
-//   );
-// };
+const Stack = createSharedElementStackNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -49,10 +32,12 @@ export default function App() {
           <Stack.Screen name="Splash" component={Splash} />
           <Stack.Screen name="Onboarding" component={Onboarding} />
           <Stack.Screen name="Authentication" component={Authentication} />
-          <Stack.Screen name="HomeDrawer" component={Home} />
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Favorites" component={Favorites} />
+          <Stack.Screen name="BookDetail" component={BookDetail} />
         </Stack.Navigator>
       </NavigationContainer>
-      <StatusBar style="dark" />
+      <StatusBar style="dark" backgroundColor="#f6f5f5" />
     </>
   );
 }

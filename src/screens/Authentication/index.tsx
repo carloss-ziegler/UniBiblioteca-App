@@ -1,4 +1,11 @@
-import { View, Text, Image, Dimensions, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import React, { useState } from "react";
 import BGImage from "../../../assets/images/image4.png";
 import SelectDropdown from "react-native-select-dropdown";
@@ -10,7 +17,8 @@ const { width, height } = Dimensions.get("screen");
 const uni = ["UCB - Universidade Católica de Brasília"];
 
 const Authentication = ({ navigation }) => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   return (
     <View
@@ -104,7 +112,12 @@ const Authentication = ({ navigation }) => {
           />
 
           <TouchableOpacity
-            onPress={() => navigation.navigate("HomeDrawer")}
+            onPress={async () => {
+              setLoading(true);
+              await new Promise((resolve) => setTimeout(resolve, 2000));
+              navigation.navigate("Home");
+              setLoading(false);
+            }}
             style={{
               marginTop: 28,
               alignItems: "center",
@@ -115,12 +128,16 @@ const Authentication = ({ navigation }) => {
               paddingVertical: 8,
             }}
           >
-            <Text
-              style={{ color: "#f6f5f5", fontSize: 20 }}
-              className="font-fontSemibold"
-            >
-              Entrar
-            </Text>
+            {loading ? (
+              <ActivityIndicator color="#f6f5f5" />
+            ) : (
+              <Text
+                style={{ color: "#f6f5f5", fontSize: 20 }}
+                className="font-fontSemibold"
+              >
+                Entrar
+              </Text>
+            )}
           </TouchableOpacity>
         </View>
       </View>

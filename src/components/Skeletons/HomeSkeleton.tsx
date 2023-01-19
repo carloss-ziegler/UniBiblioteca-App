@@ -37,9 +37,6 @@ const Home = ({ navigation }) => {
   const [isEnabled, setIsEnabled] = useState<boolean>(false);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
-  const [isEnabled2, setIsEnabled2] = useState<boolean>(false);
-  const toggleSwitch2 = () => setIsEnabled2((previousState) => !previousState);
-
   const offsetValue = useRef(new Animated.Value(0)).current;
   const scaleValue = useRef(new Animated.Value(1)).current;
   const borderValue = useRef(new Animated.Value(0)).current;
@@ -63,109 +60,8 @@ const Home = ({ navigation }) => {
 
   return (
     <View className="flex-1 bg-transparent">
-      {/* Drawer */}
-      <View className="flex-1 bg-blue-secondary">
-        <View className="p-4 flex-1 max-w-[65%]">
-          <View className="flex-row items-center justify-between mt-10">
-            <View>
-              <Text className="text-base font-fontSemibold text-textWhite">
-                Lucas Carlos
-              </Text>
-              <Text className="text-xs font-fontSemibold text-textWhite">
-                lucas.carlos@a.ucb.br
-              </Text>
-            </View>
-            <TouchableOpacity onPress={() => setShowMenu(false)}>
-              <AntDesign name="close" size={28} color="#f6f5f5" />
-            </TouchableOpacity>
-          </View>
-
-          <View className="h-[0.5px] bg-textWhite w-full mt-3" />
-
-          <View className="mt-12">
-            <DrawerItem
-              icon={<AntDesign name="hearto" size={24} color="#f6f5f5" />}
-              title="Meu Acervo"
-              onPress={() => navigation.navigate("Favorites")}
-            />
-            <DrawerItem
-              icon={<FontAwesome name="moon-o" size={24} color="#f6f5f5" />}
-              title="Alterar Tema"
-              button={
-                <Switch
-                  trackColor={{ false: "#767577", true: "#53d769" }}
-                  thumbColor={isEnabled ? "#f6f5f5" : "#f6f5f5"}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitch}
-                  value={isEnabled}
-                />
-              }
-            />
-            <DrawerItem
-              icon={
-                <Ionicons
-                  name="notifications-outline"
-                  size={24}
-                  color="#f6f5f5"
-                />
-              }
-              title="Notificações"
-              button={
-                <Switch
-                  trackColor={{ false: "#767577", true: "#53d769" }}
-                  thumbColor={isEnabled ? "#f6f5f5" : "#f6f5f5"}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitch2}
-                  value={isEnabled2}
-                />
-              }
-            />
-
-            <DrawerItem
-              icon={<Feather name="settings" size={24} color="#f6f5f5" />}
-              title="Configurações"
-            />
-          </View>
-
-          <View className="flex-1 justify-end space-y-3">
-            <View className="h-[0.5px] bg-textWhite w-full mt-3" />
-
-            <TouchableOpacity>
-              <Text className="text-textWhite text-sm font-fontSemibold">
-                Política de Privacidade
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity>
-              <Text className="text-textWhite text-sm font-fontSemibold">
-                Sobre Nós
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity>
-              <Text className="text-textWhite font-fontSemibold">Suporte</Text>
-              <Text className="text-xs text-textWhite">
-                unibiblioteca@suporte.com
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-
       {/* Main Screen */}
-      <Animated.View
-        className="flex-1 absolute top-0 bottom-0 right-0 left-0"
-        style={{
-          transform: [
-            { scale: scaleValue },
-            {
-              translateX: offsetValue,
-            },
-          ],
-          borderRadius: borderValue,
-          overflow: "hidden",
-        }}
-      >
+      <Animated.View className="flex-1 absolute top-0 bottom-0 right-0 left-0">
         <Animated.View
           style={{
             paddingTop: 24,
@@ -173,36 +69,7 @@ const Home = ({ navigation }) => {
           }}
           className="h-16 border-b border-borderGrey flex-row items-center px-3"
         >
-          <TouchableOpacity
-            onPress={() => {
-              Animated.timing(scaleValue, {
-                toValue: showMenu ? 1 : 0.84,
-                duration: 300,
-                useNativeDriver: true,
-              }).start();
-
-              Animated.timing(borderValue, {
-                toValue: showMenu ? 0 : 16,
-                duration: 300,
-                useNativeDriver: true,
-              }).start();
-
-              Animated.timing(offsetValue, {
-                toValue: showMenu ? 0 : width * 0.7,
-                duration: 300,
-                useNativeDriver: true,
-              }).start();
-
-              Animated.timing(closeButtonOffset, {
-                toValue: !showMenu ? -30 : 0,
-                duration: 300,
-                useNativeDriver: true,
-              }).start();
-
-              setShowMenu(!showMenu);
-            }}
-            className="flex-1"
-          >
+          <TouchableOpacity className="flex-1">
             <MaterialIcons name="menu-open" size={28} color="#1687A7" />
           </TouchableOpacity>
 

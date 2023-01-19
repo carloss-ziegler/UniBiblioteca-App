@@ -18,11 +18,11 @@ const BooksCarousel = ({ book }: Props) => {
       <View>
         <Text
           //   numberOfLines={1}
-          className="text-base font-fontSemibold text-[#222831] w-40"
+          className="text-base font-fontSemibold text-textBlack w-40"
         >
           {book.title}
         </Text>
-        <Text className="text-xs font-fontSemibold text-[#9d9d9d]">
+        <Text className="text-xs font-fontSemibold text-grey-primary">
           {book.author}
         </Text>
       </View>
