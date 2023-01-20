@@ -70,7 +70,7 @@ export default function Favorites({ navigation }) {
     const fetchBooks = async () => {
       await axios
         .get(
-          `https://www.googleapis.com/books/v1/volumes?q=react&key=AIzaSyAtenw6fsNwoK-bHEPUfWTSbEFs6cVjGKc&maxResults=30`
+          `https://www.googleapis.com/books/v1/volumes?q=typescript&printType=books&key=AIzaSyAtenw6fsNwoK-bHEPUfWTSbEFs6cVjGKc&maxResults=30`
         )
         .then((data) => {
           setData(data.data.items);
@@ -218,7 +218,7 @@ export default function Favorites({ navigation }) {
                       <SharedElement id={`item.${item.id}.image`}>
                         <Image
                           source={{
-                            uri: item.volumeInfo?.imageLinks.thumbnail,
+                            uri: item.volumeInfo?.imageLinks.smallThumbnail,
                           }}
                           style={{
                             width: ITEM_WIDTH / 1.2,

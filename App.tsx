@@ -9,6 +9,7 @@ import { useFonts } from "expo-font";
 import Favorites from "./src/screens/Favorites";
 import BookDetail from "./src/screens/BookDetail";
 import Settings from "./src/screens/Settings";
+import PrivacyPolicy from "./src/screens/PrivacyPolicy";
 
 const Stack = createSharedElementStackNavigator();
 
@@ -41,6 +42,7 @@ export default function App() {
             options={{ presentation: "transparentModal" }}
           />
           <Stack.Screen name="Settings" component={Settings} />
+          <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
         </Stack.Navigator>
       </NavigationContainer>
       <StatusBar style="dark" backgroundColor="#f6f5f5" />

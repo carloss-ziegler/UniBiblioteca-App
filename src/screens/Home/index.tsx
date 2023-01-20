@@ -54,10 +54,10 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     Promise.all([
       axios.get(
-        `https://www.googleapis.com/books/v1/volumes?q=react&key=AIzaSyAtenw6fsNwoK-bHEPUfWTSbEFs6cVjGKc&maxResults=40`
+        `https://www.googleapis.com/books/v1/volumes?q=react&printType=books&key=AIzaSyAtenw6fsNwoK-bHEPUfWTSbEFs6cVjGKc&maxResults=40`
       ),
       axios.get(
-        `https://www.googleapis.com/books/v1/volumes?q=typescript&key=AIzaSyAtenw6fsNwoK-bHEPUfWTSbEFs6cVjGKc&maxResults=40`
+        `https://www.googleapis.com/books/v1/volumes?q=typescript&printType=books&key=AIzaSyAtenw6fsNwoK-bHEPUfWTSbEFs6cVjGKc&maxResults=40`
       ),
     ])
       .then(([firstData, secondData]) => {
@@ -75,10 +75,15 @@ const Home = ({ navigation }) => {
       setLoading(true);
       await axios
         .get(
-          `https://www.googleapis.com/books/v1/volumes?q=${searchInput}&key=AIzaSyAtenw6fsNwoK-bHEPUfWTSbEFs6cVjGKc&maxResults=40`
+          `https://www.googleapis.com/books/v1/volumes?q=${searchInput}&printType=books&key=AIzaSyAtenw6fsNwoK-bHEPUfWTSbEFs6cVjGKc&maxResults=40`
         )
         .then((data) => {
-          setBooks(data.data.items);
+          if (data.data.items.length >= 1) {
+            setBooks(data.data.items);
+            setLoading(false);
+          } else {
+            alert("Nenhum dado encontrado!");
+          }
           setLoading(false);
         })
         .catch((error) => {
@@ -179,7 +184,9 @@ const Home = ({ navigation }) => {
           <View className="flex-1 justify-end space-y-3">
             <View className="h-[0.5px] bg-textWhite w-full mt-3" />
 
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("PrivacyPolicy")}
+            >
               <Text className="text-textWhite text-sm font-fontSemibold">
                 Política de Privacidade
               </Text>
@@ -365,6 +372,7 @@ const Home = ({ navigation }) => {
                 />
               </View>
             </View>
+
             {loading ? (
               <View className="items-center justify-center">
                 <ActivityIndicator color="#222831" />
@@ -389,6 +397,7 @@ const Home = ({ navigation }) => {
                 }}
               />
             )}
+
             <Text className={`text-base text-textBlack mt-6 font-fontBold`}>
               Continuar lendo
             </Text>
