@@ -10,6 +10,7 @@ import Favorites from "./src/screens/Favorites";
 import BookDetail from "./src/screens/BookDetail";
 import Settings from "./src/screens/Settings";
 import PrivacyPolicy from "./src/screens/PrivacyPolicy";
+import TermsAndConditions from "./src/screens/TermsAndConditions";
 
 const Stack = createSharedElementStackNavigator();
 
@@ -43,6 +44,10 @@ export default function App() {
           />
           <Stack.Screen name="Settings" component={Settings} />
           <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+          <Stack.Screen
+            name="TermsAndConditions"
+            component={TermsAndConditions}
+          />
         </Stack.Navigator>
       </NavigationContainer>
       <StatusBar style="dark" backgroundColor="#f6f5f5" />

@@ -192,6 +192,14 @@ const Home = ({ navigation }) => {
               </Text>
             </TouchableOpacity>
 
+            <TouchableOpacity
+              onPress={() => navigation.navigate("TermsAndConditions")}
+            >
+              <Text className="text-textWhite text-sm font-fontSemibold">
+                Termos e Condições
+              </Text>
+            </TouchableOpacity>
+
             <TouchableOpacity>
               <Text className="text-textWhite text-sm font-fontSemibold">
                 Sobre Nós
