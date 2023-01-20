@@ -8,8 +8,9 @@ import {
   TextInput,
   Animated,
   Switch,
+  ActivityIndicator,
 } from "react-native";
-import React, { useLayoutEffect, useState, useRef } from "react";
+import React, { useLayoutEffect, useState, useRef, useEffect } from "react";
 import {
   MaterialIcons,
   Feather,
@@ -23,13 +24,17 @@ import { BookProps } from "../../utils/types";
 import { Books } from "../../mocks/Books";
 import BooksCarousel from "../../components/BooksCarousel";
 import DrawerItem from "../../components/DrawerItem";
+import axios from "axios";
 
 const { width, height } = Dimensions.get("screen");
 
 const categories = ["Tecnologia", "Saúde", "Direito", "Economia"];
 
 const Home = ({ navigation }) => {
-  const [books] = useState<BookProps[]>(Books);
+  const [books, setBooks] = useState([]);
+  const [books2, setBooks2] = useState([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [searchInput, setSearchInput] = useState<string>("");
   const scrollY = useRef(new Animated.Value(0)).current;
   const scrollX = useRef(new Animated.Value(0)).current;
   const [value, setValue] = useState<string>("");
@@ -45,6 +50,42 @@ const Home = ({ navigation }) => {
   const scaleValue = useRef(new Animated.Value(1)).current;
   const borderValue = useRef(new Animated.Value(0)).current;
   const closeButtonOffset = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Promise.all([
+      axios.get(
+        `https://www.googleapis.com/books/v1/volumes?q=react&key=AIzaSyAtenw6fsNwoK-bHEPUfWTSbEFs6cVjGKc&maxResults=40`
+      ),
+      axios.get(
+        `https://www.googleapis.com/books/v1/volumes?q=typescript&key=AIzaSyAtenw6fsNwoK-bHEPUfWTSbEFs6cVjGKc&maxResults=40`
+      ),
+    ])
+      .then(([firstData, secondData]) => {
+        setBooks(firstData.data.items);
+        setBooks2(secondData.data.items);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  async function searchBook() {
+    if (searchInput != "") {
+      setLoading(true);
+      await axios
+        .get(
+          `https://www.googleapis.com/books/v1/volumes?q=${searchInput}&key=AIzaSyAtenw6fsNwoK-bHEPUfWTSbEFs6cVjGKc&maxResults=40`
+        )
+        .then((data) => {
+          setBooks(data.data.items);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -248,97 +289,133 @@ const Home = ({ navigation }) => {
             Qual livro deseja pesquisar no acervo?
           </Animated.Text>
 
-          <View className="flex-row items-center justify-between mt-3">
-            <View className="border h-9 border-borderGrey bg-whiteSmoke flex-1 rounded shadow-sm flex-row items-center px-2">
+          <View
+            style={{ elevation: 4 }}
+            className="flex-row items-center border rounded border-borderGrey justify-center mt-3"
+          >
+            <View className="h-10 rounded-tl rounded-bl bg-whiteSmoke shadow-sm flex-row items-center px-2 flex-[0.85]">
               <TextInput
+                value={searchInput}
+                onChangeText={(text) => setSearchInput(text)}
                 placeholder="Pesquisar por autores, títulos ou categorias"
-                className="flex-1"
+                className="flex-1 placeholder:text-xs"
+                returnKeyType="done"
+                onSubmitEditing={searchBook}
               />
+            </View>
 
+            <View className="h-full w-[0.5px] bg-textBlack opacity-40" />
+
+            <TouchableOpacity
+              className="items-center rounded-tr rounded-br flex-[0.15] bg-whiteSmoke shadow-sm justify-center h-10"
+              onPress={searchBook}
+            >
               <Feather name="search" size={20} color="#1687A7" />
-            </View>
-
-            <View className="flex-1 items-center flex-row justify-end">
-              <Text className="text-xs font-fontSemibold text-textBlack mr-1">
-                Filtro:
-              </Text>
-
-              <SelectDropdown
-                data={categories}
-                onSelect={(selectedItem, index) => {
-                  setValue(selectedItem);
-                }}
-                buttonTextAfterSelection={(selectedItem, index) => {
-                  return selectedItem;
-                }}
-                rowTextForSelection={(item, index) => {
-                  return item;
-                }}
-                defaultButtonText="Selecionar"
-                renderDropdownIcon={(isOpened) => {
-                  return (
-                    <FontAwesome
-                      name={isOpened ? "chevron-up" : "chevron-down"}
-                      color="#222831"
-                      size={12}
-                    />
-                  );
-                }}
-                dropdownIconPosition={"right"}
-                dropdownStyle={{
-                  backgroundColor: "#fafafa",
-                  borderRadius: 4,
-                }}
-                buttonStyle={{
-                  backgroundColor: "#fafafa",
-                  borderWidth: 1,
-                  borderColor: "#33333333",
-                  borderRadius: 4,
-                  width: width / 3,
-                  height: width * 0.08,
-                }}
-                buttonTextStyle={{
-                  fontSize: 12,
-                }}
-              />
-            </View>
+            </TouchableOpacity>
           </View>
 
           <View className="mt-6">
-            <Text className="font-fontBold text-base text-textBlack">
-              Recomendados
-            </Text>
-            <Animated.FlatList
-              data={books}
-              keyExtractor={(item) => item.id}
-              scrollEventThrottle={32}
-              onScroll={Animated.event(
-                [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-                { useNativeDriver: false }
-              )}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              renderItem={({ item: book, index }) => {
-                return <BooksCarousel book={book} />;
-              }}
-            />
+            <View className="flex-row items-center justify-between">
+              <Text className="font-fontBold text-base text-textBlack">
+                Recomendados
+              </Text>
+
+              <View className="flex-1 items-center flex-row justify-end">
+                <Text className="text-xs font-fontSemibold text-textBlack mr-1">
+                  Filtro:
+                </Text>
+
+                <SelectDropdown
+                  data={categories}
+                  onSelect={(selectedItem, index) => {
+                    setValue(selectedItem);
+                  }}
+                  buttonTextAfterSelection={(selectedItem, index) => {
+                    return selectedItem;
+                  }}
+                  rowTextForSelection={(item, index) => {
+                    return item;
+                  }}
+                  defaultButtonText="Selecionar"
+                  renderDropdownIcon={(isOpened) => {
+                    return (
+                      <FontAwesome
+                        name={isOpened ? "chevron-up" : "chevron-down"}
+                        color="#222831"
+                        size={12}
+                      />
+                    );
+                  }}
+                  dropdownIconPosition={"right"}
+                  dropdownStyle={{
+                    backgroundColor: "#fafafa",
+                    borderRadius: 4,
+                  }}
+                  buttonStyle={{
+                    backgroundColor: "#fafafa",
+                    borderWidth: 1,
+                    borderColor: "#33333333",
+                    borderRadius: 4,
+                    width: width / 3,
+                    height: width * 0.08,
+                  }}
+                  buttonTextStyle={{
+                    fontSize: 12,
+                  }}
+                />
+              </View>
+            </View>
+            {loading ? (
+              <View className="items-center justify-center">
+                <ActivityIndicator color="#222831" />
+              </View>
+            ) : (
+              <Animated.FlatList
+                data={books}
+                pagingEnabled
+                snapToAlignment="start"
+                decelerationRate="fast"
+                snapToInterval={width * 0.5}
+                keyExtractor={(item) => item.id}
+                scrollEventThrottle={8}
+                onScroll={Animated.event(
+                  [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                  { useNativeDriver: false }
+                )}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                renderItem={({ item: book, index }) => {
+                  return <BooksCarousel book={book} />;
+                }}
+              />
+            )}
             <Text className={`text-base text-textBlack mt-6 font-fontBold`}>
               Continuar lendo
             </Text>
-            <Animated.FlatList
-              data={books}
-              keyExtractor={(item) => item.id}
-              scrollEventThrottle={32}
-              onScroll={Animated.event(
-                [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-                { useNativeDriver: false }
-              )}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              renderItem={({ item: book, index }) => {
-                return <BooksCarousel book={book} />;
-              }}
-            />
+            {loading ? (
+              <View className="items-center justify-center">
+                <ActivityIndicator color="#222831" />
+              </View>
+            ) : (
+              <Animated.FlatList
+                data={books2}
+                pagingEnabled
+                snapToAlignment="start"
+                decelerationRate="fast"
+                snapToInterval={width * 0.5}
+                keyExtractor={(item) => item.id}
+                scrollEventThrottle={8}
+                onScroll={Animated.event(
+                  [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                  { useNativeDriver: false }
+                )}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                renderItem={({ item: book, index }) => {
+                  return <BooksCarousel book={book} />;
+                }}
+              />
+            )}
           </View>
         </Animated.ScrollView>
       </Animated.View>

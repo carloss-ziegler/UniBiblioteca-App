@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as React from "react";
 import {
   Image,
@@ -8,6 +9,8 @@ import {
   View,
   StyleSheet,
   SafeAreaView,
+  ActivityIndicator,
+  ScrollView,
 } from "react-native";
 const { width, height } = Dimensions.get("screen");
 import {
@@ -19,6 +22,7 @@ import {
 import { Books } from "../../mocks/Books";
 import { BookProps } from "../../utils/types";
 import { SharedElement } from "react-navigation-shared-element/build/v4";
+import axios from "axios";
 
 const OVERFLOW_HEIGHT = 70;
 const SPACING = 10;
@@ -43,14 +47,14 @@ const OverflowItems = ({ data, scrollXAnimated }) => {
                 style={[styles.title]}
                 numberOfLines={1}
               >
-                {item.title}
+                {item.volumeInfo?.title}
               </Text>
               <View style={styles.itemContainerRow}>
                 <Text className="font-fontMedium" style={[styles.location]}>
-                  {item.author}
+                  {item.volumeInfo?.authors[0]}
                 </Text>
                 <Text className="font-fontMedium" style={[styles.date]}>
-                  {item.id}
+                  {item.volumeInfo?.pageCount} páginas
                 </Text>
               </View>
             </View>
@@ -62,6 +66,20 @@ const OverflowItems = ({ data, scrollXAnimated }) => {
 };
 
 export default function Favorites({ navigation }) {
+  React.useEffect(() => {
+    const fetchBooks = async () => {
+      await axios
+        .get(
+          `https://www.googleapis.com/books/v1/volumes?q=react&key=AIzaSyAtenw6fsNwoK-bHEPUfWTSbEFs6cVjGKc&maxResults=30`
+        )
+        .then((data) => {
+          setData(data.data.items);
+          setLoading(false);
+        });
+    };
+    fetchBooks();
+  }, []);
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -75,7 +93,8 @@ export default function Favorites({ navigation }) {
     });
   }, []);
 
-  const [data, setData] = React.useState<BookProps[]>(Books);
+  const [data, setData] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
   const scrollXIndex = React.useRef(new Animated.Value(0)).current;
   const scrollXAnimated = React.useRef(new Animated.Value(0)).current;
   const [index, setIndex] = React.useState(0);
@@ -127,85 +146,94 @@ export default function Favorites({ navigation }) {
       >
         <SafeAreaView className="flex-1">
           <OverflowItems data={data} scrollXAnimated={scrollXAnimated} />
-          <FlatList
-            data={data}
-            keyExtractor={(item) => item.id}
-            horizontal
-            inverted
-            contentContainerStyle={{
-              flex: 1,
-              justifyContent: "center",
-              padding: SPACING * 2,
-              marginTop: 44,
-            }}
-            scrollEnabled={false}
-            removeClippedSubviews={false}
-            CellRendererComponent={({
-              item,
-              index,
-              children,
-              style,
-              ...props
-            }) => {
-              const newStyle = [style, { zIndex: data.length - index }];
-              return (
-                <View style={newStyle} index={index} {...props}>
-                  {children}
-                </View>
-              );
-            }}
-            renderItem={({ item, index: i }) => {
-              const inputRange = [i - 1, i, i + 1];
-              const translateX = scrollXAnimated.interpolate({
-                inputRange,
-                outputRange: [50, 0, -100],
-              });
-              const scale = scrollXAnimated.interpolate({
-                inputRange,
-                outputRange: [0.8, 1, 0.6],
-              });
-              const opacity = scrollXAnimated.interpolate({
-                inputRange,
-                outputRange: [1 - 1 / VISIBLE_ITEMS, 1, 0],
-              });
+          {loading ? (
+            <View className="flex-1 items-center justify-center">
+              <ActivityIndicator color="#222831" size="large" />
+            </View>
+          ) : (
+            <FlatList
+              data={data}
+              keyExtractor={(item) => item.id}
+              horizontal
+              inverted
+              contentContainerStyle={{
+                flex: 1,
+                justifyContent: "center",
+                padding: SPACING * 2,
+                marginTop: 44,
+              }}
+              scrollEnabled={false}
+              removeClippedSubviews={false}
+              CellRendererComponent={({
+                item,
+                index,
+                children,
+                style,
+                ...props
+              }) => {
+                const newStyle = [style, { zIndex: data.length - index }];
+                return (
+                  <View style={newStyle} index={index} {...props}>
+                    {children}
+                  </View>
+                );
+              }}
+              renderItem={({ item, index: i }) => {
+                const inputRange = [i - 1, i, i + 1];
+                const translateX = scrollXAnimated.interpolate({
+                  inputRange,
+                  outputRange: [50, 0, -100],
+                });
+                const scale = scrollXAnimated.interpolate({
+                  inputRange,
+                  outputRange: [0.8, 1, 0.6],
+                });
+                const opacity = scrollXAnimated.interpolate({
+                  inputRange,
+                  outputRange: [1 - 1 / VISIBLE_ITEMS, 1, 0],
+                });
 
-              return (
-                <Animated.View
-                  style={{
-                    position: "absolute",
-                    left: -ITEM_WIDTH / 2.4,
-                    opacity,
-                    transform: [
-                      {
-                        translateX,
-                      },
-                      { scale },
-                    ],
-                  }}
-                >
-                  <TouchableOpacity
-                    activeOpacity={0.9}
-                    onPress={() => {
-                      navigation.navigate("BookDetail", {
-                        item: Books[index],
-                      });
+                return (
+                  <Animated.View
+                    style={{
+                      position: "absolute",
+                      left: -ITEM_WIDTH / 2.4,
+                      opacity,
+                      transform: [
+                        {
+                          translateX,
+                        },
+                        { scale },
+                      ],
                     }}
                   >
-                    <SharedElement id={`item.${item.id}.image`}>
-                      <Image
-                        source={{ uri: item.thumbnail }}
-                        style={{
-                          width: ITEM_WIDTH / 1.2,
-                          height: ITEM_HEIGHT / 1.2,
-                          borderRadius: 14,
-                        }}
-                      />
-                    </SharedElement>
-                  </TouchableOpacity>
-                </Animated.View>
-              );
-            }}
-          />
+                    <TouchableOpacity
+                      activeOpacity={0.9}
+                      onPress={() => {
+                        navigation.navigate("BookDetail", {
+                          item: data[index],
+                        });
+                      }}
+                    >
+                      <SharedElement id={`item.${item.id}.image`}>
+                        <Image
+                          source={{
+                            uri: item.volumeInfo?.imageLinks.thumbnail,
+                          }}
+                          style={{
+                            width: ITEM_WIDTH / 1.2,
+                            height: ITEM_HEIGHT / 1.2,
+                            borderRadius: 14,
+                          }}
+                          resizeMode="stretch"
+                        />
+                      </SharedElement>
+                    </TouchableOpacity>
+                  </Animated.View>
+                );
+              }}
+            />
+          )}
           <SharedElement
             id="general.bg"
             style={[
@@ -215,7 +243,7 @@ export default function Favorites({ navigation }) {
               },
             ]}
           >
-            <View
+            <ScrollView
               style={[
                 StyleSheet.absoluteFillObject,
                 {

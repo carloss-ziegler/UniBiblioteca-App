@@ -12,7 +12,6 @@ import Image1 from "../../../assets/images/Audiobook.png";
 import Image2 from "../../../assets/images/Group1.png";
 import Image3 from "../../../assets/images/Group.png";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { MaterialIcons } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -21,23 +20,23 @@ const bgs = ["#f6f5f5", "#f6f5f5", "#f6f5f5"];
 const DATA = [
   {
     key: "3571572",
-    title: "Multi-lateral intermediate moratorium",
+    title: "Bem-vindo" + "\n" + "ao UniBiblioteca",
     description:
-      "I'll back up the multi-byte XSS matrix, that should feed the SCSI application!",
-    image: Image1,
-  },
-  {
-    key: "3571747",
-    title: "Automated radical data-warehouse",
-    description:
-      "Use the optical SAS system, then you can navigate the auxiliary alarm!",
+      "Essa plataforma foi criada para você estudante ter acesso aos seus livros universitários de forma facilitada",
     image: Image2,
   },
   {
-    key: "3571680",
-    title: "Inverse attitude-oriented system engine",
+    key: "3571747",
+    title: "Experiência Personalizada",
     description:
-      "The ADP array is down, compress the online sensor so we can input the HTTP panel!",
+      "Pesquise de forma simples sobre títulos, autores, categorias desejadas e ainda crie seu próprio acervo",
+    image: Image1,
+  },
+  {
+    key: "3571680",
+    title: "Aproveite Offline",
+    description:
+      "Tenha acesso ao seu acervo em qualquer lugar, a qualquer hora, independente de acesso à internet",
     image: Image3,
   },
 ];
@@ -264,8 +263,8 @@ export default function Onboarding({ navigation }) {
                 <Animated.Image
                   source={item.image}
                   style={{
-                    width: width / 1.5,
-                    height: width / 1.5,
+                    width: width / 1.2,
+                    height: width / 1.2,
                     resizeMode: "contain",
                     opacity,
                     transform: [

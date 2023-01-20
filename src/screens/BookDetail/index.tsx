@@ -47,9 +47,9 @@ const BookDetail = ({ navigation, route }) => {
         style={[StyleSheet.absoluteFillObject]}
       >
         <Image
-          source={{ uri: item.thumbnail }}
+          source={{ uri: item.volumeInfo?.imageLinks.thumbnail }}
           style={[StyleSheet.absoluteFillObject]}
-          blurRadius={8}
+          blurRadius={2}
         />
       </SharedElement>
       <Animatable.View
@@ -92,12 +92,12 @@ const BookDetail = ({ navigation, route }) => {
             height: 5,
           },
           shadowRadius: 12,
-          elevation: 5,
+          elevation: 12,
         }}
         className="space-y-3"
       >
         <Animatable.Image
-          source={{ uri: item.thumbnail }}
+          source={{ uri: item.volumeInfo?.imageLinks.thumbnail }}
           style={{
             width: width / 2,
             height: height / 3,
@@ -126,9 +126,10 @@ const BookDetail = ({ navigation, route }) => {
         ]}
       >
         <ScrollView
-          scrollToOverflowEnabled={true}
+          removeClippedSubviews
           contentContainerStyle={{
             paddingBottom: 24,
+            flexGrow: 1,
           }}
           style={[
             StyleSheet.absoluteFillObject,
@@ -148,7 +149,7 @@ const BookDetail = ({ navigation, route }) => {
             delay={DELAY + 200}
             className="text-textBlack font-fontBold text-2xl"
           >
-            {item.title}
+            {item.volumeInfo?.title}
           </Animatable.Text>
           <View className="flex-row items-center justify-between">
             <Animatable.Text
@@ -157,7 +158,7 @@ const BookDetail = ({ navigation, route }) => {
               delay={DELAY + 350}
               className="text-grey-secondary font-fontMedium"
             >
-              {item.author}
+              {item.volumeInfo?.authors[0]}
             </Animatable.Text>
             <Animatable.Text
               animation={fadeInBottom}
@@ -165,7 +166,7 @@ const BookDetail = ({ navigation, route }) => {
               delay={DELAY + 500}
               className="text-grey-secondary opacity-40 font-fontMedium"
             >
-              {item.id}
+              {item.volumeInfo?.publishedDate}
             </Animatable.Text>
           </View>
 
@@ -183,7 +184,7 @@ const BookDetail = ({ navigation, route }) => {
 
             <View className="items-center">
               <Text className="text-textBlack font-fontSemibold text-base">
-                Port
+                {item.volumeInfo?.language}
               </Text>
               <Text className="font-fontMedium text-grey-secondary text-xs">
                 Idioma
@@ -194,7 +195,7 @@ const BookDetail = ({ navigation, route }) => {
 
             <View className="items-center">
               <Text className="text-textBlack font-fontSemibold text-base">
-                304
+                {item.volumeInfo?.pageCount}
               </Text>
               <Text className="font-fontMedium text-grey-secondary text-xs">
                 N° de páginas
@@ -221,42 +222,7 @@ const BookDetail = ({ navigation, route }) => {
             </Text>
 
             <Text className="font-fontMedium text-grey-secondary text-left mt-2">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-              Obcaecati velit blanditiis dolores nisi totam omnis aut
-              reprehenderit optio quam placeat neque accusamus excepturi rerum
-              ullam numquam qui sint, dolor in! Lorem ipsum dolor sit amet
-              consectetur, adipisicing elit. Obcaecati velit blanditiis dolores
-              nisi totam omnis aut reprehenderit optio quam placeat neque
-              accusamus excepturi rerum ullam numquam qui sint, dolor in! Lorem
-              ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati
-              velit blanditiis dolores nisi totam omnis aut reprehenderit optio
-              quam placeat neque accusamus excepturi rerum ullam numquam qui
-              sint, dolor in! Lorem ipsum dolor sit amet consectetur,
-              adipisicing elit. Obcaecati velit blanditiis dolores nisi totam
-              omnis aut reprehenderit optio quam placeat neque accusamus
-              excepturi rerum ullam numquam qui sint, dolor in! sint, dolor in!
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-              Obcaecati velit blanditiis dolores nisi totam omnis aut
-              reprehenderit optio quam placeat neque accusamus excepturi rerum
-              ullam numquam qui sint, dolor in! sint, dolor in! Lorem ipsum
-              dolor sit amet consectetur, adipisicing elit. Obcaecati velit
-              blanditiis dolores nisi totam omnis aut reprehenderit optio quam
-              placeat neque accusamus excepturi rerum ullam numquam qui sint,
-              dolor in! sint, dolor in! Lorem ipsum dolor sit amet consectetur,
-              adipisicing elit. Obcaecati velit blanditiis dolores nisi totam
-              omnis aut reprehenderit optio quam placeat neque accusamus
-              excepturi rerum ullam numquam qui sint, dolor in! sint, dolor in!
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-              Obcaecati velit blanditiis dolores nisi totam omnis aut
-              reprehenderit optio quam placeat neque accusamus excepturi rerum
-              ullam numquam qui sint, dolor in! sint, dolor in! Lorem ipsum
-              dolor sit amet consectetur, adipisicing elit. Obcaecati velit
-              blanditiis dolores nisi totam omnis aut reprehenderit optio quam
-              placeat neque accusamus excepturi rerum ullam numquam qui sint,
-              dolor in! sint, dolor in! Lorem ipsum dolor sit amet consectetur,
-              adipisicing elit. Obcaecati velit blanditiis dolores nisi totam
-              omnis aut reprehenderit optio quam placeat neque accusamus
-              excepturi rerum ullam numquam qui sint, dolor in!
+              {item.volumeInfo?.description}
             </Text>
           </View>
         </ScrollView>

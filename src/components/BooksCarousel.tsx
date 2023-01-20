@@ -2,28 +2,31 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { BookProps } from "../utils/types";
 
-interface Props {
-  book: BookProps;
-}
-
-const BooksCarousel = ({ book }: Props) => {
+const BooksCarousel = ({ book }) => {
   return (
-    <TouchableOpacity className="mt-2 mr-2">
+    <TouchableOpacity className="mt-2 mr-3">
       <Image
-        source={{ uri: book.thumbnail }}
-        className="h-52 w-40 rounded"
+        source={{
+          uri:
+            book?.volumeInfo?.imageLinks.thumbnail &&
+            book?.volumeInfo?.imageLinks.thumbnail,
+        }}
+        className="h-44 w-32 rounded"
         resizeMode="stretch"
       />
 
       <View>
         <Text
-          //   numberOfLines={1}
-          className="text-base font-fontSemibold text-textBlack w-40"
+          numberOfLines={2}
+          className="text-base font-fontSemibold text-textBlack w-32"
         >
-          {book.title}
+          {book?.volumeInfo?.title && book?.volumeInfo?.title}
         </Text>
-        <Text className="text-xs font-fontSemibold text-grey-primary">
-          {book.author}
+        <Text
+          numberOfLines={2}
+          className="text-xs font-fontSemibold text-grey-primary w-32"
+        >
+          {book.volumeInfo.authors && book.volumeInfo.authors}
         </Text>
       </View>
     </TouchableOpacity>
