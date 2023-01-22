@@ -157,8 +157,8 @@ export default function Favorites({ navigation }) {
               contentContainerStyle={{
                 flex: 1,
                 justifyContent: "center",
-                padding: SPACING * 2,
-                marginTop: 44,
+                padding: SPACING,
+                marginTop: height <= 500 ? 16 : 24,
               }}
               scrollEnabled={false}
               removeClippedSubviews={false}
@@ -232,25 +232,6 @@ export default function Favorites({ navigation }) {
               }}
             />
           )}
-          <SharedElement
-            id="general.bg"
-            style={[
-              StyleSheet.absoluteFillObject,
-              {
-                transform: [{ translateY: height }],
-              },
-            ]}
-          >
-            <ScrollView
-              style={[
-                StyleSheet.absoluteFillObject,
-                {
-                  backgroundColor: "#f6f5f5",
-                  borderRadius: 16,
-                },
-              ]}
-            />
-          </SharedElement>
         </SafeAreaView>
       </FlingGestureHandler>
     </FlingGestureHandler>
@@ -263,20 +244,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#f6f5f5",
   },
   title: {
-    fontSize: 20,
+    fontSize: height > 600 ? 20 : 16,
     fontWeight: "700",
     textTransform: "uppercase",
     letterSpacing: -1,
   },
   location: {
-    fontSize: 16,
+    fontSize: height > 600 ? 16 : 12,
   },
   date: {
-    fontSize: 12,
+    fontSize: height > 600 ? 12 : 8,
   },
   itemContainer: {
     height: OVERFLOW_HEIGHT,
-    padding: 24,
+    paddingHorizontal: 24,
+    paddingVertical: 12,
   },
   itemContainerRow: {
     flexDirection: "row",

@@ -39,6 +39,11 @@ const { height, width } = Dimensions.get("screen");
 
 const BookDetail = ({ navigation, route }) => {
   const { item } = route.params;
+  const bottomSheet = React.useRef();
+
+  React.useEffect(() => {
+    bottomSheet?.current?.show();
+  }, []);
 
   return (
     <View className="flex-1">
@@ -83,7 +88,7 @@ const BookDetail = ({ navigation, route }) => {
         delay={DELAY + 100}
         style={{
           position: "absolute",
-          top: height * 0.1,
+          top: height * 0.05,
           alignSelf: "center",
           shadowColor: "#000",
           shadowOpacity: 1,
@@ -107,7 +112,7 @@ const BookDetail = ({ navigation, route }) => {
         />
 
         <TouchableOpacity
-          activeOpacity={0.8}
+          activeOpacity={0.9}
           className="items-center justify-center py-3 bg-blue-primary rounded"
         >
           <Text className="text-textWhite font-fontSemibold text-base">
@@ -116,71 +121,67 @@ const BookDetail = ({ navigation, route }) => {
         </TouchableOpacity>
       </Animatable.View>
 
-      <SharedElement
-        id="general.bg"
-        style={[
-          StyleSheet.absoluteFillObject,
-          {
-            transform: [{ translateY: height }],
-          },
-        ]}
+      <Animatable.View
+        animation={fadeInBottom}
+        duration={DURATION}
+        delay={DELAY}
+        style={{
+          position: "absolute",
+          bottom: 0,
+          paddingHorizontal: 16,
+          paddingVertical: 12,
+          borderTopLeftRadius: 16,
+          borderTopRightRadius: 16,
+          height: height * 0.45,
+          opacity: 0.5,
+        }}
+        className="bg-whiteSmoke"
       >
+        <Animatable.Text
+          animation={fadeInBottom}
+          duration={DURATION}
+          delay={DELAY + 200}
+          className="text-textBlack font-fontBold text-2xl"
+        >
+          {item.volumeInfo?.title}
+        </Animatable.Text>
+        <View className="flex-row items-center justify-between">
+          <Animatable.Text
+            animation={fadeInBottom}
+            duration={DURATION}
+            delay={DELAY + 350}
+            className="text-grey-secondary font-fontMedium"
+          >
+            {item.volumeInfo?.authors[0]}
+          </Animatable.Text>
+          <Animatable.Text
+            animation={fadeInBottom}
+            duration={DURATION}
+            delay={DELAY + 500}
+            className="text-grey-secondary opacity-40 font-fontMedium"
+          >
+            {item.volumeInfo?.publishedDate}
+          </Animatable.Text>
+        </View>
         <ScrollView
-          removeClippedSubviews
+          stickyHeaderHiddenOnScroll={true}
           contentContainerStyle={{
             paddingBottom: 24,
             flexGrow: 1,
           }}
-          style={[
-            StyleSheet.absoluteFillObject,
-            {
-              transform: [{ translateY: -height * 0.45 }],
-              padding: 16,
-              borderTopLeftRadius: 24,
-              borderTopRightRadius: 24,
-              height: height * 0.45,
-            },
-          ]}
-          className="bg-whiteSmoke"
         >
-          <Animatable.Text
-            animation={fadeInBottom}
-            duration={DURATION}
-            delay={DELAY + 200}
-            className="text-textBlack font-fontBold text-2xl"
-          >
-            {item.volumeInfo?.title}
-          </Animatable.Text>
-          <View className="flex-row items-center justify-between">
-            <Animatable.Text
-              animation={fadeInBottom}
-              duration={DURATION}
-              delay={DELAY + 350}
-              className="text-grey-secondary font-fontMedium"
-            >
-              {item.volumeInfo?.authors[0]}
-            </Animatable.Text>
-            <Animatable.Text
-              animation={fadeInBottom}
-              duration={DURATION}
-              delay={DELAY + 500}
-              className="text-grey-secondary opacity-40 font-fontMedium"
-            >
-              {item.volumeInfo?.publishedDate}
-            </Animatable.Text>
-          </View>
-
           <View className="self-center flex-row my-5 py-3 items-center justify-evenly bg-textWhite w-full rounded">
             <View className="items-center">
               <Text className="text-textBlack font-fontSemibold text-base">
-                4.6
+                <AntDesign name="star" size={16} color="#FCB404" /> 4.6
+                <Text className="text-xs text-grey-primary">/5</Text>
               </Text>
               <Text className="font-fontMedium text-grey-secondary text-xs">
                 Avaliação
               </Text>
             </View>
 
-            <View className="h-full w-[0.5px] bg-textBlack opacity-20" />
+            <View className="h-full w-[1px] bg-textBlack opacity-20" />
 
             <View className="items-center">
               <Text className="text-textBlack font-fontSemibold text-base">
@@ -191,7 +192,7 @@ const BookDetail = ({ navigation, route }) => {
               </Text>
             </View>
 
-            <View className="h-full w-[0.5px] bg-textBlack opacity-20" />
+            <View className="h-full w-[1px] bg-textBlack opacity-20" />
 
             <View className="items-center">
               <Text className="text-textBlack font-fontSemibold text-base">
@@ -205,6 +206,16 @@ const BookDetail = ({ navigation, route }) => {
 
           <View className="mt-3">
             <Text className="text-textBlack font-fontSemibold text-lg">
+              Sobre a obra
+            </Text>
+
+            <Text className="font-fontMedium text-grey-secondary text-left mt-2">
+              {item.volumeInfo?.description}
+            </Text>
+          </View>
+
+          <View className="mt-5">
+            <Text className="text-textBlack font-fontSemibold text-lg">
               Sobre o autor
             </Text>
 
@@ -215,18 +226,8 @@ const BookDetail = ({ navigation, route }) => {
               ullam numquam qui sint, dolor in!
             </Text>
           </View>
-
-          <View className="mt-5">
-            <Text className="text-textBlack font-fontSemibold text-lg">
-              Sobre a obra
-            </Text>
-
-            <Text className="font-fontMedium text-grey-secondary text-left mt-2">
-              {item.volumeInfo?.description}
-            </Text>
-          </View>
         </ScrollView>
-      </SharedElement>
+      </Animatable.View>
     </View>
   );
 };
@@ -237,10 +238,6 @@ BookDetail.sharedElements = (route, otherRoute, showing) => {
   return [
     {
       id: `item.${item.id}.image`,
-      animation: "fade",
-    },
-    {
-      id: "general.bg",
       animation: "fade",
     },
   ];

@@ -11,6 +11,7 @@ import BookDetail from "./src/screens/BookDetail";
 import Settings from "./src/screens/Settings";
 import PrivacyPolicy from "./src/screens/PrivacyPolicy";
 import TermsAndConditions from "./src/screens/TermsAndConditions";
+import BottomTab from "./src/routes/TabBar";
 
 const Stack = createSharedElementStackNavigator();
 
@@ -35,8 +36,7 @@ export default function App() {
           <Stack.Screen name="Splash" component={Splash} />
           <Stack.Screen name="Onboarding" component={Onboarding} />
           <Stack.Screen name="Authentication" component={Authentication} />
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="Favorites" component={Favorites} />
+          <Stack.Screen name="BottomTab" component={BottomTab} />
           <Stack.Screen
             name="BookDetail"
             component={BookDetail}

@@ -5,17 +5,16 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
-  TextInput,
   Animated,
   Switch,
   ActivityIndicator,
+  ImageBackground,
 } from "react-native";
 import React, { useLayoutEffect, useState, useRef, useEffect } from "react";
 import {
   MaterialIcons,
   Feather,
   FontAwesome,
-  AntDesign,
   Ionicons,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
@@ -23,6 +22,7 @@ import SelectDropdown from "react-native-select-dropdown";
 import BooksCarousel from "../../components/BooksCarousel";
 import DrawerItem from "../../components/DrawerItem";
 import axios from "axios";
+import Bg from "../../../assets/images/bg_3.png";
 
 const { width } = Dimensions.get("screen");
 
@@ -47,7 +47,6 @@ const Home = ({ navigation }) => {
   const offsetValue = useRef(new Animated.Value(0)).current;
   const scaleValue = useRef(new Animated.Value(1)).current;
   const borderValue = useRef(new Animated.Value(0)).current;
-  const closeButtonOffset = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     Promise.all([
@@ -96,18 +95,14 @@ const Home = ({ navigation }) => {
     });
   }, []);
 
-  const opacity = scrollY.interpolate({
-    inputRange: [0, 10, 20],
-    outputRange: [1, 0.5, 0],
-  });
-
-  const Text2opacity = scrollY.interpolate({
-    inputRange: [0, 15, 30],
-    outputRange: [1, 0.5, 0],
+  const headerOpacity = scrollY.interpolate({
+    inputRange: [0, 200],
+    outputRange: [1, 0.5],
+    extrapolate: "clamp",
   });
 
   return (
-    <View className="flex-1 bg-transparent">
+    <View className="flex-1">
       {/* Drawer */}
       <View className="flex-1 bg-blue-secondary">
         <View className="p-4 flex-1 max-w-[65%]">
@@ -229,6 +224,7 @@ const Home = ({ navigation }) => {
           style={{
             paddingTop: 24,
             backgroundColor: "#fafafa",
+            // opacity: headerOpacity,
           }}
           className="h-16 border-b border-borderGrey flex-row items-center px-3"
         >
@@ -279,49 +275,17 @@ const Home = ({ navigation }) => {
           }}
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-            { useNativeDriver: false }
+            { useNativeDriver: true }
           )}
+          scrollEventThrottle={16}
           className="flex-1 bg-[#f6f5f5] px-3"
         >
-          <Animated.Text
-            style={{ opacity }}
-            className="text-base text-grey-secondary font-fontSemibold  mt-6"
-          >
-            Nos diga,
-          </Animated.Text>
-          <Animated.Text
-            style={{
-              opacity: Text2opacity,
-            }}
-            className="text-base text-grey-secondary font-fontSemibold"
-          >
-            Qual livro deseja pesquisar no acervo?
-          </Animated.Text>
-
-          <View
-            style={{ elevation: 4 }}
-            className="flex-row items-center border rounded border-borderGrey justify-center mt-3"
-          >
-            <View className="h-10 rounded-tl rounded-bl bg-whiteSmoke shadow-sm flex-row items-center px-2 flex-[0.85]">
-              <TextInput
-                value={searchInput}
-                onChangeText={(text) => setSearchInput(text)}
-                placeholder="Autores, títulos ou categorias"
-                className="flex-1 placeholder:text-xs"
-                returnKeyType="done"
-                onSubmitEditing={searchBook}
-              />
-            </View>
-
-            <View className="h-full w-[0.5px] bg-textBlack opacity-40" />
-
-            <TouchableOpacity
-              className="items-center rounded-tr rounded-br flex-[0.15] bg-whiteSmoke shadow-sm justify-center h-10"
-              onPress={searchBook}
-            >
-              <Feather name="search" size={20} color="#1687A7" />
-            </TouchableOpacity>
-          </View>
+          <ImageBackground
+            source={Bg}
+            resizeMode="cover"
+            className="w-full h-52 mt-2"
+            imageStyle={{ borderRadius: 16 }}
+          ></ImageBackground>
 
           <View className="mt-6">
             <View className="flex-row items-center justify-between">
