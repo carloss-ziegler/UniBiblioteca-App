@@ -20,13 +20,11 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import SelectDropdown from "react-native-select-dropdown";
-import { BookProps } from "../../utils/types";
-import { Books } from "../../mocks/Books";
 import BooksCarousel from "../../components/BooksCarousel";
 import DrawerItem from "../../components/DrawerItem";
 import axios from "axios";
 
-const { width, height } = Dimensions.get("screen");
+const { width } = Dimensions.get("screen");
 
 const categories = ["Tecnologia", "Saúde", "Direito", "Economia"];
 
@@ -122,9 +120,6 @@ const Home = ({ navigation }) => {
                 lucas.carlos@a.ucb.br
               </Text>
             </View>
-            <TouchableOpacity onPress={() => setShowMenu(false)}>
-              <AntDesign name="close" size={28} color="#f6f5f5" />
-            </TouchableOpacity>
           </View>
 
           <View className="h-[0.5px] bg-textWhite w-full mt-3" />
@@ -257,17 +252,16 @@ const Home = ({ navigation }) => {
                 useNativeDriver: true,
               }).start();
 
-              Animated.timing(closeButtonOffset, {
-                toValue: !showMenu ? -30 : 0,
-                duration: 300,
-                useNativeDriver: true,
-              }).start();
-
               setShowMenu(!showMenu);
             }}
             className="flex-1"
+            style
           >
-            <MaterialIcons name="menu-open" size={28} color="#1687A7" />
+            {showMenu ? (
+              <MaterialIcons name="close" size={28} color="#1687A7" />
+            ) : (
+              <MaterialIcons name="menu-open" size={28} color="#1687A7" />
+            )}
           </TouchableOpacity>
 
           <Image
@@ -312,7 +306,7 @@ const Home = ({ navigation }) => {
               <TextInput
                 value={searchInput}
                 onChangeText={(text) => setSearchInput(text)}
-                placeholder="Pesquisar por autores, títulos ou categorias"
+                placeholder="Autores, títulos ou categorias"
                 className="flex-1 placeholder:text-xs"
                 returnKeyType="done"
                 onSubmitEditing={searchBook}
