@@ -155,19 +155,27 @@ const Backdrop = ({ scrollX }) => {
 //   );
 // };
 
-const Buttons = ({ navigation }) => {
-  const itemIndex = DATA.map((_, i) => i);
+const Buttons = ({ navigation, scrollX, index }) => {
+  const opacity = scrollX.interpolate({
+    inputRange: [
+      (index - 1) * width - width * 0.7,
+      index * width,
+      (index + 1) * width - width * 0.7,
+    ],
+    outputRange: [0, 1, 0],
+  });
 
   return (
-    <View
+    <Animated.View
       style={{
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
         position: "absolute",
-        bottom: 36,
+        bottom: -48,
         width: "100%",
         paddingHorizontal: 24,
+        opacity,
       }}
     >
       <TouchableOpacity
@@ -178,7 +186,7 @@ const Buttons = ({ navigation }) => {
           justifyContent: "center",
         }}
       >
-        <Text
+        <Animated.Text
           style={{
             color: "#1687A7",
 
@@ -186,18 +194,19 @@ const Buttons = ({ navigation }) => {
           }}
           className="font-fontBold"
         >
-          Pular
-        </Text>
+          {index <= 1 ? <Text>Pular</Text> : null}
+        </Animated.Text>
       </TouchableOpacity>
 
       <TouchableOpacity
+        onPress={() => index + 1}
         style={{
           flex: 1,
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <Text
+        <Animated.Text
           style={{
             color: "#1687A7",
 
@@ -205,11 +214,11 @@ const Buttons = ({ navigation }) => {
           }}
           className="font-fontBold"
         >
-          {/* <MaterialIcons name="navigate-next" size={32} color="#1687A7" /> */}
-          Próximo
-        </Text>
+          {index <= 1 && <Text>Próximo</Text>}
+          {index == 2 && <Text>Começar</Text>}
+        </Animated.Text>
       </TouchableOpacity>
-    </View>
+    </Animated.View>
   );
 };
 
@@ -224,7 +233,8 @@ export default function Onboarding({ navigation }) {
       <Animated.FlatList
         data={DATA}
         horizontal
-        scrollEventThrottle={32}
+        scrollEventThrottle={16}
+        decelerationRate="fast"
         onScroll={Animated.event(
           [
             {
@@ -299,6 +309,12 @@ export default function Onboarding({ navigation }) {
                 >
                   {item.description}
                 </Animated.Text>
+
+                <Buttons
+                  navigation={navigation}
+                  scrollX={scrollX}
+                  index={index}
+                />
               </View>
             </View>
           );
@@ -306,8 +322,6 @@ export default function Onboarding({ navigation }) {
       />
 
       <Indicator scrollX={scrollX} />
-
-      <Buttons navigation={navigation} />
     </View>
   );
 }

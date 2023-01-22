@@ -1,8 +1,16 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import React, { useLayoutEffect } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+} from "react-native";
+import React, { useLayoutEffect, useState } from "react";
 import { Entypo } from "@expo/vector-icons";
 
 const Settings = ({ navigation }) => {
+  const [loading, setLoading] = useState<boolean>(false);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -77,10 +85,24 @@ const Settings = ({ navigation }) => {
 
       <View className="bg-[#bbbbbbbb] h-[0.6px] w-full mt-3" />
 
-      <TouchableOpacity className="mt-3">
-        <Text className="font-fontSemibold text-base text-[#E72430]">
-          Sair de Lucas Carlos
-        </Text>
+      <TouchableOpacity
+        onPress={async () => {
+          setLoading(true);
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+          navigation.reset({
+            routes: [{ name: "Authentication" }],
+          });
+          setLoading(false);
+        }}
+        className="mt-3"
+      >
+        {loading ? (
+          <ActivityIndicator color="#222831" />
+        ) : (
+          <Text className="font-fontSemibold text-base text-[#E72430]">
+            Sair de Lucas Carlos
+          </Text>
+        )}
       </TouchableOpacity>
 
       <Text className="self-center absolute bottom-10 font-fontMedium opacity-50">
