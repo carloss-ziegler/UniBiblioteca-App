@@ -19,8 +19,6 @@ import {
   State,
   TouchableOpacity,
 } from "react-native-gesture-handler";
-import { Books } from "../../mocks/Books";
-import { BookProps } from "../../utils/types";
 import { SharedElement } from "react-navigation-shared-element/build/v4";
 import axios from "axios";
 
