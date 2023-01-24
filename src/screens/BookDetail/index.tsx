@@ -173,7 +173,7 @@ const BookDetail = ({ navigation, route }) => {
             flexGrow: 1,
           }}
         >
-          <View className="self-center flex-row my-5 py-3 items-center justify-evenly bg-textWhite w-full rounded">
+          <View className="self-center flex-row my-5 py-4 items-center justify-evenly bg-textWhite w-full rounded">
             <View className="items-center">
               <Text className="text-textBlack font-fontSemibold text-base">
                 <AntDesign name="star" size={16} color="#FCB404" /> 4.6

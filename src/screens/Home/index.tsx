@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   FlatList,
   TouchableOpacity,
+  ImageBackground,
 } from "react-native";
 import React, { useLayoutEffect, useState, useRef, useEffect } from "react";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
@@ -24,17 +25,24 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import * as Haptics from "expo-haptics";
+import * as Animatable from "react-native-animatable";
 
 const { width } = Dimensions.get("screen");
 
 const categories = ["Tecnologia", "Saúde", "Direito", "Economia"];
 
 const Home = ({ navigation }) => {
+  const [books, setBooks] = useState([]);
+  const [books2, setBooks2] = useState([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [value, setValue] = useState<string>("");
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
+  const scrollViewRef = React.useRef();
   const scrollY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler((event) => {
     scrollY.value = event.contentOffset.y;
@@ -69,11 +77,6 @@ const Home = ({ navigation }) => {
     };
   });
 
-  const [books, setBooks] = useState([]);
-  const [books2, setBooks2] = useState([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [value, setValue] = useState<string>("");
-
   useEffect(() => {
     Promise.all([
       axios.get(
@@ -93,16 +96,18 @@ const Home = ({ navigation }) => {
       });
   }, []);
 
-  // const imageOpacity = scrollY.interpolate({
-  //   inputRange: [0, 250],
-  //   outputRange: [1, 0],
-  //   extrapolate: "clamp",
-  // });
-  // const imageScale = scrollY.interpolate({
-  //   inputRange: [0, 450],
-  //   outputRange: [1, 0],
-  //   extrapolate: "clamp",
-  // });
+  const DELAY = 300;
+  const DURATION = 400;
+  const fadeInBottom = {
+    0: {
+      opacity: 0,
+      translateY: 100,
+    },
+    1: {
+      opacity: 1,
+      translateY: 0,
+    },
+  };
 
   return (
     <Animated.View style={[viewStyles]} className="flex-1">
@@ -113,7 +118,7 @@ const Home = ({ navigation }) => {
         }}
         className="h-20 border-b border-borderGrey w-full flex-row items-center justify-between px-3"
       >
-        <TouchableOpacity onPress={() => navigation.openDrawer()} className="">
+        <TouchableOpacity onPress={() => navigation.openDrawer()}>
           <MaterialIcons name="menu-open" size={28} color="#1687A7" />
         </TouchableOpacity>
 
@@ -135,19 +140,56 @@ const Home = ({ navigation }) => {
       </Animated.View>
 
       <Animated.ScrollView
+        ref={scrollViewRef}
         onScroll={scrollHandler}
+        keyboardDismissMode="on-drag"
         contentContainerStyle={{
           paddingBottom: 30,
         }}
         scrollEventThrottle={16}
+        // onScrollEndDrag={(event) => {
+        //   if (
+        //     event.nativeEvent.contentOffset.y > 25 &&
+        //     event.nativeEvent.contentOffset.y < 100
+        //   ) {
+        //     scrollViewRef.current?.scrollTo({
+        //       x: 0,
+        //       y: 220,
+        //       animated: true,
+        //     });
+        //   }
+        // }}
         className="flex-1 bg-[#f6f5f5] px-3"
       >
-        <Animated.Image
-          source={Bg}
-          resizeMode="cover"
-          className="w-full h-52 mt-2 rounded-2xl"
-          style={[imageStyles]}
-        />
+        <Animated.View style={[imageStyles]}>
+          <ImageBackground
+            source={Bg}
+            resizeMode="cover"
+            className="w-full h-52 mt-2 items-center"
+            borderRadius={16}
+          >
+            <View className="px-3 py-1 space-y-3">
+              <Text className="text-textWhite font-fontMedium text-center text-lg">
+                Compartilhe o app com seus amigos!
+              </Text>
+
+              <Animatable.Image
+                animation={fadeInBottom}
+                duration={DURATION}
+                delay={DELAY}
+                source={require("../../../assets/images/start_learning.png")}
+                className="h-24"
+                resizeMode="contain"
+              />
+
+              <TouchableOpacity className="h-8 rounded shadow bg-textWhite items-center justify-center">
+                <Text className="text-textBlack font-fontSemibold text-base">
+                  Compartilhar
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </ImageBackground>
+        </Animated.View>
 
         <View className="mt-6">
           <View className="flex-row items-center justify-between">
