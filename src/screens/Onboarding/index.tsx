@@ -12,6 +12,7 @@ import Image1 from "../../../assets/images/Audiobook.png";
 import Image2 from "../../../assets/images/Group1.png";
 import Image3 from "../../../assets/images/Group.png";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { NavigationNavigateAction } from "react-navigation";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -22,7 +23,7 @@ const DATA = [
     key: "3571572",
     title: "Bem-vindo" + "\n" + "ao UniBiblioteca",
     description:
-      "Essa plataforma foi criada para você estudante ter acesso aos seus livros universitários de forma facilitada",
+      "Essa plataforma foi criada para você, estudante, ter acesso aos seus livros universitários de forma facilitada",
     image: Image2,
   },
   {
@@ -41,7 +42,10 @@ const DATA = [
   },
 ];
 
-const Indicator = ({ scrollX }) => {
+interface IndicatorProps {
+  scrollX: Animated.Value;
+}
+const Indicator = ({ scrollX }: IndicatorProps) => {
   return (
     <View
       style={{
@@ -93,16 +97,14 @@ const Indicator = ({ scrollX }) => {
   );
 };
 
-const Backdrop = ({ scrollX }) => {
+interface BackdropProps {
+  scrollX: Animated.Value;
+}
+const Backdrop = ({ scrollX }: BackdropProps) => {
   const backgroundColor = scrollX.interpolate({
     inputRange: bgs.map((_, i) => i * width),
     outputRange: bgs.map((bg) => bg),
   });
-
-  //   const opacity = scrollX.interpolate({
-  //     inputRange: bgs.map((_, i) => i * width),
-  //     outputRange: [1, 0.6, 1],
-  //   });
 
   return (
     <Animated.View
@@ -116,46 +118,13 @@ const Backdrop = ({ scrollX }) => {
   );
 };
 
-// const Square = ({ scrollX }) => {
-//   const YOLO = Animated.modulo(
-//     Animated.divide(Animated.modulo(scrollX, width), new Animated.Value(width)),
-//     1
-//   );
-
-//   const rotate = YOLO.interpolate({
-//     inputRange: [0, 0.5, 1],
-//     outputRange: ["30deg", "0deg", "30deg"],
-//   });
-
-//   const translateX = YOLO.interpolate({
-//     inputRange: [0, 0.5, 1],
-//     outputRange: [0, -height * 0.8, 0],
-//   });
-
-//   return (
-//     <Animated.View
-//       style={{
-//         width: height,
-//         height: height,
-//         backgroundColor: "#f6f5f5",
-//         borderRadius: 80,
-//         position: "absolute",
-//         top: -height * 0.6,
-//         left: -height * 0.3,
-//         transform: [
-//           {
-//             rotate,
-//           },
-//           {
-//             translateX,
-//           },
-//         ],
-//       }}
-//     />
-//   );
-// };
-
-const Buttons = ({ navigation, scrollX, index }) => {
+interface ButtonPops {
+  scrollX: Animated.Value;
+  index: number;
+  onPress: () => void;
+  navigation: NavigationNavigateAction;
+}
+const Buttons = ({ navigation, scrollX, index, onPress }: ButtonPops) => {
   const opacity = scrollX.interpolate({
     inputRange: [
       (index - 1) * width - width * 0.7,
@@ -168,11 +137,12 @@ const Buttons = ({ navigation, scrollX, index }) => {
   return (
     <Animated.View
       style={{
+        alignSelf: "center",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
         position: "absolute",
-        bottom: -48,
+        bottom: -64,
         width: "100%",
         paddingHorizontal: 24,
         opacity,
@@ -199,7 +169,7 @@ const Buttons = ({ navigation, scrollX, index }) => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => index + 1}
+        onPress={onPress}
         style={{
           flex: 1,
           alignItems: "center",
@@ -215,15 +185,34 @@ const Buttons = ({ navigation, scrollX, index }) => {
           className="font-fontBold"
         >
           {index <= 1 && <Text>Próximo</Text>}
-          {index == 2 && <Text>Começar</Text>}
+          {index == 2 && (
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Authentication")}
+            >
+              <Text
+                style={{
+                  color: "#1687A7",
+
+                  fontSize: 16,
+                }}
+                className="font-fontBold"
+              >
+                Começar
+              </Text>
+            </TouchableOpacity>
+          )}
         </Animated.Text>
       </TouchableOpacity>
     </Animated.View>
   );
 };
 
-export default function Onboarding({ navigation }) {
-  const scrollX = React.useRef(new Animated.Value(0)).current;
+interface OnboardingProps {
+  navigation: NavigationNavigateAction;
+}
+export default function Onboarding({ navigation }: OnboardingProps) {
+  const scrollX = React.useRef<Animated.Value>(new Animated.Value(0)).current;
+  const FlatListRef = React.useRef<Animated.FlatList>(null);
 
   return (
     <View style={styles.container}>
@@ -231,6 +220,7 @@ export default function Onboarding({ navigation }) {
       <Backdrop scrollX={scrollX} />
       {/* <Square scrollX={scrollX} /> */}
       <Animated.FlatList
+        ref={FlatListRef}
         data={DATA}
         horizontal
         scrollEventThrottle={16}
@@ -314,6 +304,14 @@ export default function Onboarding({ navigation }) {
                   navigation={navigation}
                   scrollX={scrollX}
                   index={index}
+                  onPress={() => {
+                    if (FlatListRef.current && index < 2) {
+                      FlatListRef.current.scrollToIndex({
+                        index: index + 1,
+                        animated: true,
+                      });
+                    }
+                  }}
                 />
               </View>
             </View>

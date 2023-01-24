@@ -1,6 +1,14 @@
-import { View, Text, Image, Dimensions, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  Dimensions,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import React, { useLayoutEffect } from "react";
 import Logo from "../../../assets/images/Logo2.png";
+import { Entypo } from "@expo/vector-icons";
 
 const PrivacyPolicy = ({ navigation }) => {
   const { height, width } = Dimensions.get("screen");
@@ -15,6 +23,19 @@ const PrivacyPolicy = ({ navigation }) => {
               Política de Privacidade
             </Text>
           </>
+        );
+      },
+      headerLeft: () => {
+        return (
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            className="flex-row items-center"
+          >
+            <Entypo name="chevron-left" size={32} color="#1687A7" />
+            <Text className="text-[#1687A7] font-fontSemibold text-base">
+              Voltar
+            </Text>
+          </TouchableOpacity>
         );
       },
     });

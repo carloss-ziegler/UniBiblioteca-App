@@ -13,6 +13,7 @@ import { Feather } from "@expo/vector-icons";
 const Search = ({ navigation }) => {
   React.useLayoutEffect(() => {
     navigation.setOptions({
+      headerShown: true,
       headerTitle: () => {
         return (
           <>
@@ -32,6 +33,7 @@ const Search = ({ navigation }) => {
         >
           <View className="h-12 rounded-tl rounded-bl bg-whiteSmoke shadow-sm flex-row items-center px-2 flex-[0.85]">
             <TextInput
+              autoFocus
               autoCapitalize="none"
               // value={searchInput}
               // onChangeText={(text) => setSearchInput(text)}

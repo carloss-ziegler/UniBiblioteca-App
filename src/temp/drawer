@@ -1,0 +1,94 @@
+<View className="flex-1 bg-blue-secondary">
+        <Image
+          source={{
+            uri: "https://www.ubec.edu.br/content/uploads/2017/08/UCB.jpg",
+          }}
+          resizeMode="cover"
+          className="w-[64%] h-32 mt-14 rounded ml-2"
+        />
+        <View className="p-4 flex-1 max-w-[65%]">
+          <View className="flex-row items-center justify-between">
+            <View>
+              <Text className="text-base font-fontSemibold text-textWhite">
+                Lucas Carlos
+              </Text>
+              <Text className="text-xs font-fontSemibold text-textWhite opacity-60">
+                lucas.carlos@a.ucb.br
+              </Text>
+            </View>
+          </View>
+
+          <View className="mt-8 justify-start">
+            <DrawerItem
+              icon={
+                <MaterialCommunityIcons
+                  name="bookshelf"
+                  size={24}
+                  color="#f6f5f5"
+                />
+              }
+              title="Meu Acervo"
+              onPress={() => navigation.navigate("Favorites")}
+            />
+
+            <DrawerItem
+              icon={
+                <Ionicons
+                  name="notifications-outline"
+                  size={24}
+                  color="#f6f5f5"
+                />
+              }
+              title="Notificações"
+              button={
+                <Switch
+                  trackColor={{ false: "#767577", true: "#53d769" }}
+                  thumbColor={isEnabled ? "#f6f5f5" : "#f6f5f5"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={toggleSwitch2}
+                  value={isEnabled2}
+                />
+              }
+            />
+
+            <DrawerItem
+              icon={<Feather name="settings" size={24} color="#f6f5f5" />}
+              title="Configurações"
+              onPress={() => navigation.navigate("Settings")}
+            />
+          </View>
+
+          <View className="flex-1 justify-end space-y-3">
+            <View className="h-[0.5px] bg-textWhite opacity-30 w-full mt-3" />
+
+            <TouchableOpacity
+              onPress={() => navigation.navigate("PrivacyPolicy")}
+            >
+              <Text className="text-textWhite text-sm font-fontSemibold">
+                Política de Privacidade
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => navigation.navigate("TermsAndConditions")}
+            >
+              <Text className="text-textWhite text-sm font-fontSemibold">
+                Termos e Condições
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity>
+              <Text className="text-textWhite text-sm font-fontSemibold">
+                Sobre Nós
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity>
+              <Text className="text-textWhite font-fontSemibold">Suporte</Text>
+              <Text className="text-xs text-textWhite">
+                unibiblioteca@suporte.com
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>

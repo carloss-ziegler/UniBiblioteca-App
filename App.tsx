@@ -3,15 +3,16 @@ import { createSharedElementStackNavigator } from "react-navigation-shared-eleme
 import Onboarding from "./src/screens/Onboarding";
 import Splash from "./src/screens/Splash";
 import Authentication from "./src/screens/Authentication";
-import Home from "./src/screens/Home";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
-import Favorites from "./src/screens/Favorites";
 import BookDetail from "./src/screens/BookDetail";
 import Settings from "./src/screens/Settings";
 import PrivacyPolicy from "./src/screens/PrivacyPolicy";
 import TermsAndConditions from "./src/screens/TermsAndConditions";
 import BottomTab from "./src/routes/TabBar";
+import DrawerNavigation from "./src/routes/DrawerNavigation";
+import Search from "./src/screens/Search";
+import Favorites from "./src/screens/Favorites";
 
 const Stack = createSharedElementStackNavigator();
 
@@ -36,13 +37,15 @@ export default function App() {
           <Stack.Screen name="Splash" component={Splash} />
           <Stack.Screen name="Onboarding" component={Onboarding} />
           <Stack.Screen name="Authentication" component={Authentication} />
-          <Stack.Screen name="BottomTab" component={BottomTab} />
+          <Stack.Screen name="Home" component={DrawerNavigation} />
           <Stack.Screen
             name="BookDetail"
             component={BookDetail}
             options={{ presentation: "transparentModal" }}
           />
           <Stack.Screen name="Settings" component={Settings} />
+          <Stack.Screen name="Search" component={Search} />
+          <Stack.Screen name="Favorites" component={Favorites} />
           <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
           <Stack.Screen
             name="TermsAndConditions"

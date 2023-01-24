@@ -74,8 +74,8 @@ const BookDetail = ({ navigation, route }) => {
         style={{
           padding: 16,
           position: "absolute",
-          top: 16,
-          right: 16,
+          top: 24,
+          right: 24,
           zIndex: 2,
         }}
         color="#f6f5f5"
@@ -137,32 +137,35 @@ const BookDetail = ({ navigation, route }) => {
         }}
         className="bg-whiteSmoke"
       >
-        <Animatable.Text
-          animation={fadeInBottom}
-          duration={DURATION}
-          delay={DELAY + 200}
-          className="text-textBlack font-fontBold text-2xl"
-        >
-          {item.volumeInfo?.title}
-        </Animatable.Text>
-        <View className="flex-row items-center justify-between">
+        <View className="pb-3">
           <Animatable.Text
             animation={fadeInBottom}
             duration={DURATION}
-            delay={DELAY + 350}
-            className="text-grey-secondary font-fontMedium"
+            delay={DELAY + 200}
+            className="text-textBlack font-fontBold text-2xl"
           >
-            {item.volumeInfo?.authors[0]}
+            {item.volumeInfo?.title}
           </Animatable.Text>
-          <Animatable.Text
-            animation={fadeInBottom}
-            duration={DURATION}
-            delay={DELAY + 500}
-            className="text-grey-secondary opacity-40 font-fontMedium"
-          >
-            {item.volumeInfo?.publishedDate}
-          </Animatable.Text>
+          <View className="flex-row items-center justify-between">
+            <Animatable.Text
+              animation={fadeInBottom}
+              duration={DURATION}
+              delay={DELAY + 350}
+              className="text-grey-secondary font-fontMedium"
+            >
+              {item.volumeInfo?.authors[0]}
+            </Animatable.Text>
+            <Animatable.Text
+              animation={fadeInBottom}
+              duration={DURATION}
+              delay={DELAY + 500}
+              className="text-grey-secondary opacity-40 font-fontMedium"
+            >
+              {item.volumeInfo?.publishedDate}
+            </Animatable.Text>
+          </View>
         </View>
+
         <ScrollView
           stickyHeaderHiddenOnScroll={true}
           contentContainerStyle={{

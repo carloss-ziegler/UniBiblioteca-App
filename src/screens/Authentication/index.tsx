@@ -117,7 +117,7 @@ const Authentication = ({ navigation }) => {
                 setLoading(true);
                 await new Promise((resolve) => setTimeout(resolve, 500));
                 navigation.reset({
-                  routes: [{ name: "BottomTab" }],
+                  routes: [{ name: "Home" }],
                 });
                 setLoading(false);
               } else {
