@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
-import React, { useLayoutEffect, useState, useRef, useEffect } from "react";
+import React, { useLayoutEffect, useState, useEffect } from "react";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import SelectDropdown from "react-native-select-dropdown";
 import BooksCarousel from "../../components/BooksCarousel";
@@ -97,11 +97,11 @@ const Home = ({ navigation }) => {
   }, []);
 
   const DELAY = 300;
-  const DURATION = 400;
+  const DURATION = 500;
   const fadeInBottom = {
     0: {
       opacity: 0,
-      translateY: 100,
+      translateY: 200,
     },
     1: {
       opacity: 1,
@@ -114,9 +114,8 @@ const Home = ({ navigation }) => {
       <Animated.View
         style={{
           paddingTop: 24,
-          backgroundColor: "#fff",
         }}
-        className="h-20 border-b border-borderGrey w-full flex-row items-center justify-between px-3"
+        className="h-20 border-b bg-light-bg border-light-borderGrey flex-row w-full items-center justify-between px-4"
       >
         <TouchableOpacity onPress={() => navigation.openDrawer()}>
           <MaterialIcons name="menu-open" size={28} color="#1687A7" />
@@ -159,17 +158,17 @@ const Home = ({ navigation }) => {
         //     });
         //   }
         // }}
-        className="flex-1 bg-[#f6f5f5] px-3"
+        className="flex-1 bg-light-bgSoft px-3"
       >
         <Animated.View style={[imageStyles]}>
           <ImageBackground
             source={Bg}
             resizeMode="cover"
-            className="w-full h-52 mt-2 items-center"
+            className="w-full h-52 mt-2 items-center justify-center"
             borderRadius={16}
           >
-            <View className="px-3 py-1 space-y-3">
-              <Text className="text-textWhite font-fontMedium text-center text-lg">
+            <View className="px-3 py-1 items-center justify-center space-y-2">
+              <Text className="text-light-textWhite font-fontMedium text-center text-lg">
                 Compartilhe o app com seus amigos!
               </Text>
 
@@ -182,8 +181,8 @@ const Home = ({ navigation }) => {
                 resizeMode="contain"
               />
 
-              <TouchableOpacity className="h-8 rounded shadow bg-textWhite items-center justify-center">
-                <Text className="text-textBlack font-fontSemibold text-base">
+              <TouchableOpacity className="h-8 px-5 rounded shadow bg-light-bgSoft items-center justify-center">
+                <Text className="text-light-textColor font-fontSemibold text-base">
                   Compartilhar
                 </Text>
               </TouchableOpacity>
@@ -193,12 +192,12 @@ const Home = ({ navigation }) => {
 
         <View className="mt-6">
           <View className="flex-row items-center justify-between">
-            <Text className="font-fontBold text-base text-textBlack">
+            <Text className="font-fontBold text-base text-light-textColor">
               Recomendados
             </Text>
 
             <View className="flex-1 items-center flex-row justify-end">
-              <Text className="text-xs font-fontSemibold text-textBlack mr-1">
+              <Text className="text-xs font-fontSemibold text-light-textColor mr-1">
                 Filtro:
               </Text>
 
@@ -264,7 +263,7 @@ const Home = ({ navigation }) => {
             />
           )}
 
-          <Text className={`text-base text-textBlack mt-6 font-fontBold`}>
+          <Text className={`text-base text-light-textColor mt-6 font-fontBold`}>
             Continuar lendo
           </Text>
           {loading ? (

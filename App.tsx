@@ -9,7 +9,6 @@ import BookDetail from "./src/screens/BookDetail";
 import Settings from "./src/screens/Settings";
 import PrivacyPolicy from "./src/screens/PrivacyPolicy";
 import TermsAndConditions from "./src/screens/TermsAndConditions";
-import BottomTab from "./src/routes/TabBar";
 import DrawerNavigation from "./src/routes/DrawerNavigation";
 import Search from "./src/screens/Search";
 import Favorites from "./src/screens/Favorites";

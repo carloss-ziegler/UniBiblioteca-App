@@ -9,19 +9,28 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        blue: {
-          primary: "#1687a7",
-          secondary: "#276678",
-          tertiary: "#D3E0EA60",
+        light: {
+          blue: {
+            primary: "#1687a7",
+            secondary: "#276678",
+            tertiary: "#D3E0EA60",
+          },
+          bg: "#fafafa",
+          bgSoft: "#f6f5f5",
+          textColor: "#222831",
+          textWhite: "#f6f5f5",
+          textGrayPrimary: "#7c7c7c",
+          textGraySecondary: "#9d9d9d",
+          borderGrey: "#33333333",
         },
-        textWhite: "#f6f5f5",
-        whiteSmoke: "#fafafa",
-        textBlack: "#222831",
-        grey: {
-          primary: "#9d9d9d",
-          secondary: "#7c7c7c",
+        dark: {
+          bg: "#222",
+          bgSoft: "#252525",
+          textColor: "#e5e5e5",
+          textColorSoft: "#808080",
+          textGrayPrimary: "#9d9d9d",
+          borderGrey: "#33333333",
         },
-        borderGrey: "#33333333",
       },
       fontFamily: {
         fontBold: "Poppins-Bold",

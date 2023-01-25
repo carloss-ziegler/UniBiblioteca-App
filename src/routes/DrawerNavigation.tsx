@@ -13,7 +13,7 @@ const DrawerNavigation = () => {
       screenOptions={{
         drawerStyle: styles.drawerStyles,
         drawerType: "slide",
-        swipeEdgeWidth: Platform.OS === "android" && 180,
+        swipeEdgeWidth: 180,
         overlayColor: "transparent",
         sceneContainerStyle: styles.sceneStyles,
       }}
@@ -29,9 +29,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#1687a7",
   },
   drawerStyles: {
-    paddingTop: 48,
     backgroundColor: "#1687a7",
-    width: width * 0.5,
+    // width: width * 0.5,
   },
 });
 

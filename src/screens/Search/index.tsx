@@ -66,7 +66,7 @@ const Search = ({ navigation }) => {
         keyboardDismissMode="on-drag"
         onScrollEndDrag={(event) => {
           if (
-            event.nativeEvent.contentOffset.y > 10 &&
+            event.nativeEvent.contentOffset.y > 5 &&
             event.nativeEvent.contentOffset.y < 45
           ) {
             scrollViewRef.current?.scrollTo({
@@ -81,7 +81,7 @@ const Search = ({ navigation }) => {
       >
         <Animated.View
           style={[searchBarAnimatedStyle]}
-          className="flex-row shadow items-center justify-center absolute left-0 right-0 top-3 h-12"
+          className="flex-row shadow items-center justify-center mt-3 h-12"
         >
           <View className="rounded-tl rounded-bl bg-whiteSmoke shadow-sm flex-row items-center px-2 flex-[0.85]">
             <TextInput
