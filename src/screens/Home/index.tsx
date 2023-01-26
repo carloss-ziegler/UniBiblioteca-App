@@ -80,10 +80,10 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     Promise.all([
       axios.get(
-        `https://www.googleapis.com/books/v1/volumes?q=react&printType=books&key=AIzaSyAtenw6fsNwoK-bHEPUfWTSbEFs6cVjGKc&maxResults=40`
+        `https://www.googleapis.com/books/v1/volumes?q=java&printType=books&key=AIzaSyAtenw6fsNwoK-bHEPUfWTSbEFs6cVjGKc&maxResults=40`
       ),
       axios.get(
-        `https://www.googleapis.com/books/v1/volumes?q=typescript&printType=books&key=AIzaSyAtenw6fsNwoK-bHEPUfWTSbEFs6cVjGKc&maxResults=40`
+        `https://www.googleapis.com/books/v1/volumes?q=dart&printType=books&key=AIzaSyAtenw6fsNwoK-bHEPUfWTSbEFs6cVjGKc&maxResults=40`
       ),
     ])
       .then(([firstData, secondData]) => {
@@ -164,11 +164,11 @@ const Home = ({ navigation }) => {
           <ImageBackground
             source={Bg}
             resizeMode="cover"
-            className="w-full h-52 mt-2 items-center justify-center"
+            className="w-full h-52 mt-2 items-center justify-center shadow"
             borderRadius={16}
           >
             <View className="px-3 py-1 items-center justify-center space-y-2">
-              <Text className="text-light-textWhite font-fontMedium text-center text-lg">
+              <Text className="text-light-textColor font-fontSemibold text-center text-lg">
                 Compartilhe o app com seus amigos!
               </Text>
 

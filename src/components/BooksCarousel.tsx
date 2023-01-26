@@ -22,13 +22,13 @@ const BooksCarousel = ({ book }) => {
       <View>
         <Text
           numberOfLines={2}
-          className="text-base font-fontSemibold text-textBlack w-32"
+          className="text-base font-fontSemibold text-light-textColor w-32"
         >
           {book.volumeInfo.title && book.volumeInfo.title}
         </Text>
         <Text
           numberOfLines={2}
-          className="text-xs font-fontSemibold text-grey-primary w-32"
+          className="text-xs font-fontSemibold text-light-textGraySecondary w-32"
         >
           {book.volumeInfo.authors && book.volumeInfo.authors}
         </Text>

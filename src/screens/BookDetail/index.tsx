@@ -113,9 +113,9 @@ const BookDetail = ({ navigation, route }) => {
 
         <TouchableOpacity
           activeOpacity={0.9}
-          className="items-center justify-center py-3 bg-blue-primary rounded"
+          className="items-center justify-center py-3 bg-light-blue-primary rounded"
         >
-          <Text className="text-textWhite font-fontSemibold text-base">
+          <Text className="text-light-textWhite font-fontSemibold text-base">
             Ler Agora
           </Text>
         </TouchableOpacity>
@@ -135,14 +135,14 @@ const BookDetail = ({ navigation, route }) => {
           height: height * 0.45,
           opacity: 0.5,
         }}
-        className="bg-whiteSmoke"
+        className="bg-light-bg"
       >
         <View className="pb-3">
           <Animatable.Text
             animation={fadeInBottom}
             duration={DURATION}
             delay={DELAY + 200}
-            className="text-textBlack font-fontBold text-2xl"
+            className="text-light-textColor font-fontBold text-2xl"
           >
             {item.volumeInfo?.title}
           </Animatable.Text>
@@ -151,7 +151,7 @@ const BookDetail = ({ navigation, route }) => {
               animation={fadeInBottom}
               duration={DURATION}
               delay={DELAY + 350}
-              className="text-grey-secondary font-fontMedium"
+              className="text-light-textGraySecondary font-fontMedium"
             >
               {item.volumeInfo?.authors[0]}
             </Animatable.Text>
@@ -159,7 +159,7 @@ const BookDetail = ({ navigation, route }) => {
               animation={fadeInBottom}
               duration={DURATION}
               delay={DELAY + 500}
-              className="text-grey-secondary opacity-40 font-fontMedium"
+              className="text-light-textGraySecondary opacity-40 font-fontMedium"
             >
               {item.volumeInfo?.publishedDate}
             </Animatable.Text>
@@ -173,56 +173,56 @@ const BookDetail = ({ navigation, route }) => {
             flexGrow: 1,
           }}
         >
-          <View className="self-center flex-row my-5 py-4 items-center justify-evenly bg-textWhite w-full rounded">
+          <View className="self-center flex-row my-5 py-4 items-center justify-evenly bg-light-bgSoft w-full rounded">
             <View className="items-center">
-              <Text className="text-textBlack font-fontSemibold text-base">
+              <Text className="text-light-textColor font-fontSemibold text-base">
                 <AntDesign name="star" size={16} color="#FCB404" /> 4.6
                 <Text className="text-xs text-grey-primary">/5</Text>
               </Text>
-              <Text className="font-fontMedium text-grey-secondary text-xs">
+              <Text className="font-fontMedium text-light-textGraySecondary text-xs">
                 Avaliação
               </Text>
             </View>
 
-            <View className="h-full w-[1px] bg-textBlack opacity-20" />
+            <View className="h-full w-[1px] bg-light-textColor opacity-20" />
 
             <View className="items-center">
-              <Text className="text-textBlack font-fontSemibold text-base">
+              <Text className="text-çight-textColor font-fontSemibold text-base">
                 {item.volumeInfo?.language}
               </Text>
-              <Text className="font-fontMedium text-grey-secondary text-xs">
+              <Text className="font-fontMedium text-light-textGraySecondary text-xs">
                 Idioma
               </Text>
             </View>
 
-            <View className="h-full w-[1px] bg-textBlack opacity-20" />
+            <View className="h-full w-[1px] bg-light-textColor opacity-20" />
 
             <View className="items-center">
               <Text className="text-textBlack font-fontSemibold text-base">
                 {item.volumeInfo?.pageCount}
               </Text>
-              <Text className="font-fontMedium text-grey-secondary text-xs">
+              <Text className="font-fontMedium text-light-textGraySecondary text-xs">
                 N° de páginas
               </Text>
             </View>
           </View>
 
           <View className="mt-3">
-            <Text className="text-textBlack font-fontSemibold text-lg">
+            <Text className="text-light-textColor font-fontSemibold text-lg">
               Sobre a obra
             </Text>
 
-            <Text className="font-fontMedium text-grey-secondary text-left mt-2">
+            <Text className="font-fontMedium text-light-textGraySecondary text-left mt-2">
               {item.volumeInfo?.description}
             </Text>
           </View>
 
           <View className="mt-5">
-            <Text className="text-textBlack font-fontSemibold text-lg">
+            <Text className="text-light-textColor font-fontSemibold text-lg">
               Sobre o autor
             </Text>
 
-            <Text className="font-fontMedium text-grey-secondary text-left mt-2">
+            <Text className="font-fontMedium text-light-textGraySecondary text-left mt-2">
               Lorem ipsum dolor sit amet consectetur, adipisicing elit.
               Obcaecati velit blanditiis dolores nisi totam omnis aut
               reprehenderit optio quam placeat neque accusamus excepturi rerum

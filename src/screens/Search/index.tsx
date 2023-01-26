@@ -83,7 +83,7 @@ const Search = ({ navigation }) => {
           style={[searchBarAnimatedStyle]}
           className="flex-row shadow items-center justify-center mt-3 h-12"
         >
-          <View className="rounded-tl rounded-bl bg-whiteSmoke shadow-sm flex-row items-center px-2 flex-[0.85]">
+          <View className="rounded-tl rounded-bl bg-light-bg shadow-sm flex-row items-center px-2 flex-[0.85]">
             <TextInput
               autoFocus
               autoCapitalize="none"

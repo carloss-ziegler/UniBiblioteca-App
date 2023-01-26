@@ -1,0 +1,51 @@
+import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
+import React from "react";
+import { StatusBar } from "expo-status-bar";
+
+const { height, width } = Dimensions.get("screen");
+
+const Authentication: React.FC = () => {
+  return (
+    <View className="flex-1 bg-light-bgSoft">
+      <Image
+        source={{
+          uri: "https://img.freepik.com/free-vector/beautiful-book-club-pattern-illustration_23-2149330102.jpg?w=2000",
+        }}
+        style={[StyleSheet.absoluteFillObject]}
+        blurRadius={8}
+      />
+
+      <View style={{ position: "absolute", top: 36, alignSelf: "center" }}>
+        <View
+          style={{ padding: 8, borderRadius: 36, backgroundColor: "#fff" }}
+          className="shadow-lg"
+        >
+          <Image
+            source={require("../../../assets/images/Logo2.png")}
+            style={{ height: 128 }}
+            resizeMode="contain"
+          />
+        </View>
+        <Text className="text-light-textWhite text-center font-fontBold text-lg mt-3">
+          Bem-Vindo(a)!
+        </Text>
+      </View>
+
+      <View
+        style={{
+          flex: 1,
+          position: "absolute",
+          bottom: 0,
+          right: 0,
+          left: 0,
+          backgroundColor: "#f6f5f5",
+          minHeight: height * 0.6,
+          borderTopLeftRadius: 64,
+        }}
+      ></View>
+      <StatusBar style="light" />
+    </View>
+  );
+};
+
+export default Authentication;

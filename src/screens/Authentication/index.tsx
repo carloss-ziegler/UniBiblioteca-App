@@ -6,11 +6,12 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import BGImage from "../../../assets/images/image4.png";
 import SelectDropdown from "react-native-select-dropdown";
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import { StatusBar } from "react-native";
+import AuthContext from "../../contexts/Auth/auth";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -19,6 +20,7 @@ const uni = ["UCB - Universidade Católica de Brasília"];
 const Authentication = ({ navigation }) => {
   const [value, setValue] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const { signIn } = useContext(AuthContext);
 
   return (
     <View
@@ -71,10 +73,10 @@ const Authentication = ({ navigation }) => {
 
           <SelectDropdown
             data={uni}
-            onSelect={(selectedItem, index) => {
+            onSelect={(selectedItem: string, index: number) => {
               setValue(selectedItem);
             }}
-            buttonTextAfterSelection={(selectedItem, index) => {
+            buttonTextAfterSelection={(selectedItem: string, index: number) => {
               return selectedItem;
             }}
             rowTextForSelection={(item, index) => {
@@ -114,12 +116,7 @@ const Authentication = ({ navigation }) => {
           <TouchableOpacity
             onPress={async () => {
               if (value) {
-                setLoading(true);
-                await new Promise((resolve) => setTimeout(resolve, 500));
-                navigation.reset({
-                  routes: [{ name: "Home" }],
-                });
-                setLoading(false);
+                await signIn();
               } else {
                 alert("Selecione uma instituição de ensino!");
               }

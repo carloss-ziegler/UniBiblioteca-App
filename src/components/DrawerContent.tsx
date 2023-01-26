@@ -74,8 +74,6 @@ const CustomDrawer = ({ state, navigation, descriptors }: DrawerProps) => {
               lucas.carlos@a.ucb.br
             </Text>
           </View>
-
-          {/* <View className="h-[0.5px] bg-light-textWhite opacity-30 w-full" /> */}
         </Animated.View>
 
         <View className="mt-8 justify-start">
@@ -99,7 +97,7 @@ const CustomDrawer = ({ state, navigation, descriptors }: DrawerProps) => {
 
           <DrawerItem
             icon={<Feather name="moon" size={24} color="#f6f5f5" />}
-            title="Tema"
+            title="Tema escuro"
             onPress={() => {
               Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Success

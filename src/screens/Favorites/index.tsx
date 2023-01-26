@@ -10,7 +10,6 @@ import {
   StyleSheet,
   SafeAreaView,
   ActivityIndicator,
-  ScrollView,
 } from "react-native";
 const { width, height } = Dimensions.get("screen");
 import {
@@ -41,7 +40,7 @@ const OverflowItems = ({ data, scrollXAnimated }) => {
           return (
             <View key={index} style={styles.itemContainer}>
               <Text
-                className="font-fontBold text-textBlack"
+                className="font-fontBold text-light-textColor"
                 style={[styles.title]}
                 numberOfLines={1}
               >
@@ -68,7 +67,7 @@ export default function Favorites({ navigation }) {
     const fetchBooks = async () => {
       await axios
         .get(
-          `https://www.googleapis.com/books/v1/volumes?q=typescript&printType=books&key=AIzaSyAtenw6fsNwoK-bHEPUfWTSbEFs6cVjGKc&maxResults=30`
+          `https://www.googleapis.com/books/v1/volumes?q=java&printType=books&key=AIzaSyAtenw6fsNwoK-bHEPUfWTSbEFs6cVjGKc&maxResults=30`
         )
         .then((data) => {
           setData(data.data.items);
@@ -84,7 +83,9 @@ export default function Favorites({ navigation }) {
       headerTitle: () => {
         return (
           <>
-            <Text className="font-fontSemibold text-textBlack">Meu Acervo</Text>
+            <Text className="font-fontSemibold text-light-textColor">
+              Meu Acervo
+            </Text>
           </>
         );
       },

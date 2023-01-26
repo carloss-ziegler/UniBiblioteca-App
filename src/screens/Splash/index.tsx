@@ -1,8 +1,10 @@
 import { View, Text } from "react-native";
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import LottieView from "lottie-react-native";
+import AuthContext from "../../contexts/Auth/auth";
 
 const Splash = ({ navigation }) => {
+  const { signed } = useContext(AuthContext);
   const animation = useRef(null);
 
   useEffect(() => {
@@ -10,7 +12,7 @@ const Splash = ({ navigation }) => {
 
     setTimeout(() => {
       navigation.reset({
-        routes: [{ name: "Onboarding" }],
+        routes: [{ name: signed ? "Home" : "Onboarding" }],
       });
     }, 3000);
   }, [navigation]);

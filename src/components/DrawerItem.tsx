@@ -16,7 +16,7 @@ const DrawerItem = ({ icon, title, button, onPress }: Props) => {
     >
       <View className="flex-row items-center justify-between space-x-4">
         <Text>{icon}</Text>
-        <Text className="font-fontBold text-textWhite">{title}</Text>
+        <Text className="font-fontBold text-light-textWhite">{title}</Text>
       </View>
 
       {button && button}
