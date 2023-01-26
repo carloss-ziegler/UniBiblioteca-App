@@ -8,6 +8,9 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Platform,
+  Dimensions,
+  ScrollView,
+  Image,
 } from "react-native";
 import { Entypo, Feather } from "@expo/vector-icons";
 import Animated, {
@@ -18,13 +21,23 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import AuthContext from "../../contexts/Auth/auth";
+import axios from "axios";
+import HorizontalBookCard from "../../components/HorizontalBookCard";
+
+const { width, height } = Dimensions.get("screen");
 
 const Search = ({ navigation }) => {
   const { darkMode } = React.useContext(AuthContext);
   const scrollViewRef = React.useRef();
+  const [topBooks, setTopBooks] = React.useState([]);
   const scrollY = useSharedValue(0);
   const onScroll = useAnimatedScrollHandler((event) => {
     scrollY.value = event.contentOffset.y;
+  });
+
+  const scrollX = useSharedValue(0);
+  const booksScroll = useAnimatedScrollHandler((event) => {
+    scrollX.value = event.contentOffset.x;
   });
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -76,10 +89,27 @@ const Search = ({ navigation }) => {
 
   const searchBarAnimatedStyle = useAnimatedStyle(() => {
     return {
-      height: interpolate(scrollY.value, [0, 44], [48, 0], Extrapolate.CLAMP),
-      opacity: interpolate(scrollY.value, [0, 44], [1, 0], Extrapolate.CLAMP),
+      height: interpolate(scrollY.value, [0, 80], [55, 0], Extrapolate.CLAMP),
+      opacity: interpolate(scrollY.value, [0, 80], [1, 0], Extrapolate.CLAMP),
     };
   });
+
+  React.useEffect(() => {
+    const fetchBooks = async () => {
+      const response = await axios.get(
+        `https://www.googleapis.com/books/v1/volumes?q=dart&printType=books&key=AIzaSyAtenw6fsNwoK-bHEPUfWTSbEFs6cVjGKc&maxResults=10`
+      );
+      setTopBooks([
+        { key: "left-spacer" },
+        ...response.data.items,
+        { key: "right-spacer" },
+      ]);
+    };
+    fetchBooks();
+  }, []);
+
+  const ITEM_SIZE = width * 0.55;
+  const SPACER_ITEM_SIZE = (width - ITEM_SIZE) / 2;
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -90,18 +120,19 @@ const Search = ({ navigation }) => {
         bounces={false}
         onScrollEndDrag={(event) => {
           if (
-            event.nativeEvent.contentOffset.y > 5 &&
-            event.nativeEvent.contentOffset.y < 45
+            event.nativeEvent.contentOffset.y > 7 &&
+            event.nativeEvent.contentOffset.y < 50
           ) {
             scrollViewRef.current?.scrollTo({
               x: 0,
-              y: 60,
+              y: 50,
               animated: true,
             });
           }
         }}
         onScroll={onScroll}
         className="flex-1 px-3"
+        contentContainerStyle={{ paddingBottom: 24 }}
         style={{
           backgroundColor: darkMode ? "#151515" : "#f6f5f5",
         }}
@@ -117,7 +148,6 @@ const Search = ({ navigation }) => {
             className="rounded-tl-3xl rounded-bl-3xl shadow-sm flex-row items-center px-2 flex-[0.85]"
           >
             <TextInput
-              autoFocus
               autoCapitalize="none"
               // value={searchInput}
               // onChangeText={(text) => setSearchInput(text)}
@@ -125,7 +155,6 @@ const Search = ({ navigation }) => {
               className="flex-1 placeholder:text-xs h-12 px-3"
               returnKeyType="done"
               placeholderTextColor={darkMode && "#7c7c7c"}
-              contextMenuHidden
               style={{
                 color: darkMode ? "#e5e5e5" : undefined,
               }}
@@ -154,6 +183,122 @@ const Search = ({ navigation }) => {
             />
           </TouchableOpacity>
         </Animated.View>
+
+        <View className="flex-row items-center justify-between mt-7">
+          <Text
+            style={{
+              color: darkMode ? "#e5e5e5" : "#222831",
+            }}
+            className="font-fontSemibold text-xl"
+          >
+            Recente
+          </Text>
+
+          <TouchableOpacity>
+            <Text className="text-dark-textGrayPrimary font-fontMedium text-sm">
+              Limpar
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <View className="min-h-[150px] bg-dark-textGrayPrimary rounded-xl"></View>
+
+        <Text
+          style={{
+            color: darkMode ? "#e5e5e5" : "#222831",
+          }}
+          className="font-fontSemibold text-xl mt-5"
+        >
+          Livros em alta
+        </Text>
+
+        <Animated.FlatList
+          data={topBooks}
+          onScroll={booksScroll}
+          horizontal
+          scrollEventThrottle={16}
+          showsHorizontalScrollIndicator={false}
+          decelerationRate={0}
+          snapToInterval={width * 0.55}
+          bounces={false}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item, index }) => {
+            if (!item.volumeInfo) {
+              return (
+                <View
+                  style={{
+                    width: SPACER_ITEM_SIZE,
+                  }}
+                />
+              );
+            }
+
+            return (
+              <HorizontalBookCard
+                x={scrollX}
+                height={height}
+                width={width}
+                item={item}
+                index={index}
+                darkMode={darkMode}
+              />
+            );
+          }}
+        />
+
+        <Text
+          style={{
+            color: darkMode ? "#e5e5e5" : "#222831",
+          }}
+          className="font-fontSemibold text-xl"
+        >
+          Autores em alta
+        </Text>
+
+        <ScrollView
+          horizontal
+          contentContainerStyle={{ paddingHorizontal: 12 }}
+          style={{
+            marginTop: 16,
+          }}
+        >
+          {topBooks?.map((book, index) => {
+            if (!book.volumeInfo) {
+              return null;
+            }
+
+            return (
+              <View
+                key={index}
+                style={{
+                  width: width * 0.3,
+                  alignItems: "center",
+                  marginHorizontal: 4,
+                }}
+              >
+                <View
+                  style={{
+                    width: 48,
+                    height: 48,
+                    borderRadius: 24,
+                    backgroundColor: darkMode ? "#f6f5f5" : "#151515",
+                  }}
+                />
+                <Text
+                  numberOfLines={1}
+                  style={{
+                    color: darkMode ? "#e5e5e5" : "#222831",
+                    textAlign: "center",
+                    marginTop: 4,
+                  }}
+                  className="font-fontMedium"
+                >
+                  {book.volumeInfo.authors[0]}
+                </Text>
+              </View>
+            );
+          })}
+        </ScrollView>
       </Animated.ScrollView>
     </TouchableWithoutFeedback>
   );
