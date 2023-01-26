@@ -11,6 +11,7 @@ import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { SharedElement } from "react-navigation-shared-element/build/v4";
 import * as Animatable from "react-native-animatable";
+import AuthContext from "../../contexts/Auth/auth";
 
 const DELAY = 300;
 const DURATION = 400;
@@ -38,6 +39,7 @@ const fadeInTop = {
 const { height, width } = Dimensions.get("screen");
 
 const BookDetail = ({ navigation, route }) => {
+  const { darkMode } = React.useContext(AuthContext);
   const { item } = route.params;
   const bottomSheet = React.useRef();
 
@@ -134,15 +136,18 @@ const BookDetail = ({ navigation, route }) => {
           borderTopRightRadius: 16,
           height: height * 0.45,
           opacity: 0.5,
+          backgroundColor: darkMode ? "#010101" : "#fafafa",
         }}
-        className="bg-light-bg"
       >
         <View className="pb-3">
           <Animatable.Text
             animation={fadeInBottom}
             duration={DURATION}
             delay={DELAY + 200}
-            className="text-light-textColor font-fontBold text-2xl"
+            className="font-fontBold text-2xl"
+            style={{
+              color: darkMode ? "#e5e5e5" : "#222831",
+            }}
           >
             {item.volumeInfo?.title}
           </Animatable.Text>
@@ -173,9 +178,17 @@ const BookDetail = ({ navigation, route }) => {
             flexGrow: 1,
           }}
         >
-          <View className="self-center flex-row my-5 py-4 items-center justify-evenly bg-light-bgSoft w-full rounded">
+          <View
+            style={{ backgroundColor: darkMode ? "#252525" : "#f6f5f5" }}
+            className="self-center flex-row my-5 py-4 items-center justify-evenly w-full rounded"
+          >
             <View className="items-center">
-              <Text className="text-light-textColor font-fontSemibold text-base">
+              <Text
+                style={{
+                  color: darkMode ? "#e5e5e5" : "#222831",
+                }}
+                className="font-fontSemibold text-base"
+              >
                 <AntDesign name="star" size={16} color="#FCB404" /> 4.6
                 <Text className="text-xs text-grey-primary">/5</Text>
               </Text>
@@ -187,7 +200,12 @@ const BookDetail = ({ navigation, route }) => {
             <View className="h-full w-[1px] bg-light-textColor opacity-20" />
 
             <View className="items-center">
-              <Text className="text-çight-textColor font-fontSemibold text-base">
+              <Text
+                style={{
+                  color: darkMode ? "#e5e5e5" : "#222831",
+                }}
+                className="font-fontSemibold text-base"
+              >
                 {item.volumeInfo?.language}
               </Text>
               <Text className="font-fontMedium text-light-textGraySecondary text-xs">
@@ -198,7 +216,12 @@ const BookDetail = ({ navigation, route }) => {
             <View className="h-full w-[1px] bg-light-textColor opacity-20" />
 
             <View className="items-center">
-              <Text className="text-textBlack font-fontSemibold text-base">
+              <Text
+                style={{
+                  color: darkMode ? "#e5e5e5" : "#222831",
+                }}
+                className="font-fontSemibold text-base"
+              >
                 {item.volumeInfo?.pageCount}
               </Text>
               <Text className="font-fontMedium text-light-textGraySecondary text-xs">
@@ -208,7 +231,12 @@ const BookDetail = ({ navigation, route }) => {
           </View>
 
           <View className="mt-3">
-            <Text className="text-light-textColor font-fontSemibold text-lg">
+            <Text
+              style={{
+                color: darkMode ? "#e5e5e5" : "#222831",
+              }}
+              className="font-fontSemibold text-lg"
+            >
               Sobre a obra
             </Text>
 
@@ -218,7 +246,12 @@ const BookDetail = ({ navigation, route }) => {
           </View>
 
           <View className="mt-5">
-            <Text className="text-light-textColor font-fontSemibold text-lg">
+            <Text
+              style={{
+                color: darkMode ? "#e5e5e5" : "#222831",
+              }}
+              className="font-fontSemibold text-lg"
+            >
               Sobre o autor
             </Text>
 

@@ -14,6 +14,7 @@ import { Feather, MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
 import DrawerItem from "./DrawerItem";
 import BottomSheet from "react-native-gesture-bottom-sheet";
 import * as Haptics from "expo-haptics";
+import AuthContext from "../contexts/Auth/auth";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -23,8 +24,17 @@ interface DrawerProps {
   descriptors: DrawerDescriptorMap;
 }
 const CustomDrawer = ({ state, navigation, descriptors }: DrawerProps) => {
-  const toggleSwitch = async () => {};
-  const [isEnabled, setIsEnabled] = React.useState<boolean>(false);
+  const { darkMode, setDarkModeToggler, setLightModeToggler } =
+    React.useContext(AuthContext);
+
+  async function toggleSwitch() {
+    if (!darkMode) {
+      await setDarkModeToggler();
+    } else {
+      await setLightModeToggler();
+    }
+  }
+
   const [isEnabled2, setIsEnabled2] = React.useState<boolean>(false);
 
   const toggleSwitch2 = () => setIsEnabled2((previousState) => !previousState);
@@ -143,35 +153,55 @@ const CustomDrawer = ({ state, navigation, descriptors }: DrawerProps) => {
 
           <BottomSheet
             radius={24}
-            sheetBackgroundColor="#f6f5f5"
+            sheetBackgroundColor={darkMode ? "#000" : "#f6f5f5"}
             hasDraggableIcon
             ref={bottomSheet}
             height={height * 0.3}
           >
             <View className="space-y-1">
-              <Text className="font-fontBold text-light-textColor text-lg text-center">
+              <Text
+                style={{
+                  color: darkMode ? "#e5e5e5" : "#222831",
+                }}
+                className="font-fontBold text-lg text-center"
+              >
                 Tema
               </Text>
 
-              <View className="w-full h-[0.5px] bg-[#33333333]" />
+              <View
+                style={{
+                  backgroundColor: darkMode ? "#666" : "#33333333",
+                }}
+                className="w-full h-[0.5px]"
+              />
             </View>
 
             <View className="p-4 flex-1">
               <View className="flex-row items-center justify-between">
-                <Text className="font-fontSemibold text-light-textColor text-base">
+                <Text
+                  style={{
+                    color: darkMode ? "#e5e5e5" : "#222831",
+                  }}
+                  className="font-fontSemibold text-base"
+                >
                   Modo escuro
                 </Text>
 
                 <Switch
                   trackColor={{ false: "#767577", true: "#53d769" }}
                   thumbColor={"#f6f5f5"}
+                  value={darkMode}
                   onValueChange={toggleSwitch}
-                  value={isEnabled}
                 />
               </View>
 
               <View className="flex-row items-center justify-between mt-3">
-                <Text className="font-fontSemibold text-light-textColor text-base">
+                <Text
+                  style={{
+                    color: darkMode ? "#e5e5e5" : "#222831",
+                  }}
+                  className="font-fontSemibold text-base"
+                >
                   Usar o padrão do dispositivo
                 </Text>
                 <Switch

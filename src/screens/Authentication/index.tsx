@@ -13,14 +13,13 @@ import { FontAwesome } from "@expo/vector-icons";
 import { StatusBar } from "react-native";
 import AuthContext from "../../contexts/Auth/auth";
 
-const { width, height } = Dimensions.get("screen");
+const { width } = Dimensions.get("screen");
 
 const uni = ["UCB - Universidade Católica de Brasília"];
 
 const Authentication = ({ navigation }) => {
   const [value, setValue] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const { signIn } = useContext(AuthContext);
+  const { signIn, loading } = useContext(AuthContext);
 
   return (
     <View

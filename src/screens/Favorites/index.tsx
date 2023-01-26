@@ -20,6 +20,8 @@ import {
 } from "react-native-gesture-handler";
 import { SharedElement } from "react-navigation-shared-element/build/v4";
 import axios from "axios";
+import { Entypo } from "@expo/vector-icons";
+import AuthContext from "../../contexts/Auth/auth";
 
 const OVERFLOW_HEIGHT = 70;
 const SPACING = 10;
@@ -27,7 +29,7 @@ const ITEM_WIDTH = width * 0.76;
 const ITEM_HEIGHT = ITEM_WIDTH * 1.7;
 const VISIBLE_ITEMS = 3;
 
-const OverflowItems = ({ data, scrollXAnimated }) => {
+const OverflowItems = ({ data, scrollXAnimated, darkMode }) => {
   const inputRange = [-1, 0, 1];
   const translateY = scrollXAnimated.interpolate({
     inputRange,
@@ -40,17 +42,38 @@ const OverflowItems = ({ data, scrollXAnimated }) => {
           return (
             <View key={index} style={styles.itemContainer}>
               <Text
-                className="font-fontBold text-light-textColor"
-                style={[styles.title]}
+                className="font-fontBold"
+                style={[
+                  styles.title,
+                  {
+                    color: darkMode ? "#e5e5e5" : "#222831",
+                  },
+                ]}
                 numberOfLines={1}
               >
                 {item.volumeInfo?.title}
               </Text>
               <View style={styles.itemContainerRow}>
-                <Text className="font-fontMedium" style={[styles.location]}>
+                <Text
+                  className="font-fontMedium"
+                  style={[
+                    styles.location,
+                    {
+                      color: darkMode ? "#e5e5e5" : "#222831",
+                    },
+                  ]}
+                >
                   {item.volumeInfo?.authors[0]}
                 </Text>
-                <Text className="font-fontMedium" style={[styles.date]}>
+                <Text
+                  className="font-fontMedium"
+                  style={[
+                    styles.date,
+                    {
+                      color: darkMode ? "#e5e5e5" : "#222831",
+                    },
+                  ]}
+                >
                   {item.volumeInfo?.pageCount} páginas
                 </Text>
               </View>
@@ -63,6 +86,7 @@ const OverflowItems = ({ data, scrollXAnimated }) => {
 };
 
 export default function Favorites({ navigation }) {
+  const { darkMode } = React.useContext(AuthContext);
   React.useEffect(() => {
     const fetchBooks = async () => {
       await axios
@@ -83,12 +107,43 @@ export default function Favorites({ navigation }) {
       headerTitle: () => {
         return (
           <>
-            <Text className="font-fontSemibold text-light-textColor">
+            <Text
+              style={{
+                color: darkMode ? "#f6f5f5" : "#222831",
+              }}
+              className="font-fontSemibold"
+            >
               Meu Acervo
             </Text>
           </>
         );
       },
+      headerLeft: () => {
+        return (
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            className="flex-row items-center ml-2"
+          >
+            <Entypo
+              name="chevron-thin-left"
+              size={24}
+              color={darkMode ? "#e5e5e5" : "#1687a7"}
+            />
+            <Text
+              style={{
+                color: darkMode ? "#e5e5e5" : "#1687a7",
+              }}
+              className="font-fontSemibold text-base"
+            >
+              Voltar
+            </Text>
+          </TouchableOpacity>
+        );
+      },
+      headerStyle: {
+        backgroundColor: darkMode ? "#000" : undefined,
+      },
+      headerShadowVisible: darkMode ? false : undefined,
     });
   }, []);
 
@@ -143,11 +198,23 @@ export default function Favorites({ navigation }) {
           }
         }}
       >
-        <SafeAreaView className="flex-1">
-          <OverflowItems data={data} scrollXAnimated={scrollXAnimated} />
+        <SafeAreaView
+          style={{
+            backgroundColor: darkMode ? "#121212" : "#f6f5f5",
+          }}
+          className="flex-1"
+        >
+          <OverflowItems
+            darkMode={darkMode}
+            data={data}
+            scrollXAnimated={scrollXAnimated}
+          />
           {loading ? (
             <View className="flex-1 items-center justify-center">
-              <ActivityIndicator color="#222831" size="large" />
+              <ActivityIndicator
+                color={darkMode ? "#e5e5e5" : "#222831"}
+                size="large"
+              />
             </View>
           ) : (
             <FlatList
@@ -240,10 +307,6 @@ export default function Favorites({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f6f5f5",
-  },
   title: {
     fontSize: height > 600 ? 20 : 16,
     fontWeight: "700",

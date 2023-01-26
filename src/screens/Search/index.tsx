@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import {
   View,
@@ -16,8 +17,10 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
+import AuthContext from "../../contexts/Auth/auth";
 
 const Search = ({ navigation }) => {
+  const { darkMode } = React.useContext(AuthContext);
   const scrollViewRef = React.useRef();
   const scrollY = useSharedValue(0);
   const onScroll = useAnimatedScrollHandler((event) => {
@@ -29,7 +32,14 @@ const Search = ({ navigation }) => {
       headerTitle: () => {
         return (
           <>
-            <Text className="text-textBlack font-fontSemibold">Pesquisar</Text>
+            <Text
+              style={{
+                color: darkMode ? "#f6f5f5" : "#222831",
+              }}
+              className="font-fontSemibold"
+            >
+              Pesquisar
+            </Text>
           </>
         );
       },
@@ -39,15 +49,28 @@ const Search = ({ navigation }) => {
           return (
             <TouchableOpacity
               onPress={() => navigation.goBack()}
-              className="flex-row items-center"
+              className="flex-row items-center ml-2"
             >
-              <Entypo name="chevron-left" size={32} color="#1687A7" />
-              <Text className="text-[#1687A7] font-fontSemibold text-base">
+              <Entypo
+                name="chevron-thin-left"
+                size={24}
+                color={darkMode ? "#e5e5e5" : "#1687a7"}
+              />
+              <Text
+                style={{
+                  color: darkMode ? "#e5e5e5" : "#1687a7",
+                }}
+                className="font-fontMedium text-base"
+              >
                 Voltar
               </Text>
             </TouchableOpacity>
           );
         },
+      headerStyle: {
+        backgroundColor: darkMode ? "#000" : undefined,
+      },
+      headerShadowVisible: darkMode ? false : undefined,
     });
   }, []);
 
@@ -64,6 +87,7 @@ const Search = ({ navigation }) => {
         ref={scrollViewRef}
         scrollEventThrottle={16}
         keyboardDismissMode="on-drag"
+        bounces={false}
         onScrollEndDrag={(event) => {
           if (
             event.nativeEvent.contentOffset.y > 5 &&
@@ -78,31 +102,56 @@ const Search = ({ navigation }) => {
         }}
         onScroll={onScroll}
         className="flex-1 px-3"
+        style={{
+          backgroundColor: darkMode ? "#151515" : "#f6f5f5",
+        }}
       >
         <Animated.View
           style={[searchBarAnimatedStyle]}
           className="flex-row shadow items-center justify-center mt-3 h-12"
         >
-          <View className="rounded-tl rounded-bl bg-light-bg shadow-sm flex-row items-center px-2 flex-[0.85]">
+          <View
+            style={{
+              backgroundColor: darkMode ? "#252525" : "#fafafa",
+            }}
+            className="rounded-tl-3xl rounded-bl-3xl shadow-sm flex-row items-center px-2 flex-[0.85]"
+          >
             <TextInput
               autoFocus
               autoCapitalize="none"
               // value={searchInput}
               // onChangeText={(text) => setSearchInput(text)}
               placeholder="Autores, títulos ou categorias"
-              className="flex-1 placeholder:text-xs h-12"
+              className="flex-1 placeholder:text-xs h-12 px-3"
               returnKeyType="done"
+              placeholderTextColor={darkMode && "#7c7c7c"}
+              contextMenuHidden
+              style={{
+                color: darkMode ? "#e5e5e5" : undefined,
+              }}
               // onSubmitEditing={searchBook}
             />
           </View>
 
-          <View className="w-[0.5px] bg-textBlack opacity-40" />
+          <View
+            style={{
+              backgroundColor: darkMode ? "#666" : "#33333333",
+            }}
+            className="w-[0.5px] opacity-40"
+          />
 
           <TouchableOpacity
-            className="items-center rounded-tr rounded-br flex-[0.15] bg-whiteSmoke shadow-sm justify-center h-12"
+            style={{
+              backgroundColor: darkMode ? "#252525" : "#fafafa",
+            }}
+            className="items-center rounded-tr-3xl rounded-br-3xl flex-[0.15] shadow-sm justify-center h-12"
             //   onPress={searchBook}
           >
-            <Feather name="search" size={20} color="#1687A7" />
+            <Feather
+              name="search"
+              size={20}
+              color={darkMode ? "#f6f5f5" : "#1687A7"}
+            />
           </TouchableOpacity>
         </Animated.View>
       </Animated.ScrollView>

@@ -1,8 +1,11 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { BookProps } from "../utils/types";
+import AuthContext from "../contexts/Auth/auth";
 
 const BooksCarousel = ({ book }) => {
+  const { darkMode } = React.useContext(AuthContext);
+
   if (book.length < 1) {
     return null;
   }
@@ -21,8 +24,11 @@ const BooksCarousel = ({ book }) => {
 
       <View>
         <Text
+          style={{
+            color: darkMode ? "#e5e5e5" : "#222831",
+          }}
           numberOfLines={2}
-          className="text-base font-fontSemibold text-light-textColor w-32"
+          className="text-base font-fontSemibold w-32"
         >
           {book.volumeInfo.title && book.volumeInfo.title}
         </Text>

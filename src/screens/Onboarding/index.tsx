@@ -13,11 +13,11 @@ import Image2 from "../../../assets/images/Group1.png";
 import Image3 from "../../../assets/images/Group.png";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { NavigationNavigateAction } from "react-navigation";
+import AuthContext from "../../contexts/Auth/auth";
 
 const { width, height } = Dimensions.get("screen");
 
 // const bgs = ["#1687A7", "#276678", "#579BB1"];
-const bgs = ["#f6f5f5", "#f6f5f5", "#f6f5f5"];
 const DATA = [
   {
     key: "3571572",
@@ -97,34 +97,41 @@ const Indicator = ({ scrollX }: IndicatorProps) => {
   );
 };
 
-interface BackdropProps {
-  scrollX: Animated.Value;
-}
-const Backdrop = ({ scrollX }: BackdropProps) => {
-  const backgroundColor = scrollX.interpolate({
-    inputRange: bgs.map((_, i) => i * width),
-    outputRange: bgs.map((bg) => bg),
-  });
+// interface BackdropProps {
+//   scrollX: Animated.Value;
+// }
+// const Backdrop = ({ scrollX }: BackdropProps) => {
+//   const backgroundColor = scrollX.interpolate({
+//     inputRange: bgs.map((_, i) => i * width),
+//     outputRange: bgs.map((bg) => bg),
+//   });
 
-  return (
-    <Animated.View
-      style={[
-        StyleSheet.absoluteFillObject,
-        {
-          backgroundColor,
-        },
-      ]}
-    />
-  );
-};
+//   return (
+//     <Animated.View
+//       style={[
+//         StyleSheet.absoluteFillObject,
+//         {
+//           backgroundColor,
+//         },
+//       ]}
+//     />
+//   );
+// };
 
 interface ButtonPops {
   scrollX: Animated.Value;
   index: number;
   onPress: () => void;
   navigation: NavigationNavigateAction;
+  darkMode: boolean;
 }
-const Buttons = ({ navigation, scrollX, index, onPress }: ButtonPops) => {
+const Buttons = ({
+  navigation,
+  scrollX,
+  index,
+  onPress,
+  darkMode,
+}: ButtonPops) => {
   const opacity = scrollX.interpolate({
     inputRange: [
       (index - 1) * width - width * 0.7,
@@ -158,7 +165,7 @@ const Buttons = ({ navigation, scrollX, index, onPress }: ButtonPops) => {
       >
         <Animated.Text
           style={{
-            color: "#1687A7",
+            color: darkMode ? "#e5e5e5" : "#1687a7",
 
             fontSize: 16,
           }}
@@ -178,7 +185,7 @@ const Buttons = ({ navigation, scrollX, index, onPress }: ButtonPops) => {
       >
         <Animated.Text
           style={{
-            color: "#1687A7",
+            color: darkMode ? "#e5e5e5" : "#1687a7",
 
             fontSize: 16,
           }}
@@ -191,7 +198,7 @@ const Buttons = ({ navigation, scrollX, index, onPress }: ButtonPops) => {
             >
               <Text
                 style={{
-                  color: "#1687A7",
+                  color: darkMode ? "#e5e5e5" : "#1687a7",
 
                   fontSize: 16,
                 }}
@@ -211,14 +218,21 @@ interface OnboardingProps {
   navigation: NavigationNavigateAction;
 }
 export default function Onboarding({ navigation }: OnboardingProps) {
+  const { darkMode } = React.useContext(AuthContext);
   const scrollX = React.useRef<Animated.Value>(new Animated.Value(0)).current;
   const FlatListRef = React.useRef<Animated.FlatList>(null);
 
   return (
-    <View style={styles.container}>
-      <StatusBar style="dark" />
-      <Backdrop scrollX={scrollX} />
-      {/* <Square scrollX={scrollX} /> */}
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: darkMode ? "#121212" : "#f6f5f5",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <StatusBar style={darkMode ? "light" : "dark"} />
+      {/* <Backdrop scrollX={scrollX} /> */}
       <Animated.FlatList
         ref={FlatListRef}
         data={DATA}
@@ -282,7 +296,7 @@ export default function Onboarding({ navigation }: OnboardingProps) {
                     fontSize: 24,
                     marginBottom: 10,
                     textAlign: "center",
-                    color: "#222831",
+                    color: darkMode ? "#e5e5e5" : "#222831",
                     opacity,
                   }}
                   className="font-fontBold"
@@ -292,7 +306,7 @@ export default function Onboarding({ navigation }: OnboardingProps) {
                 <Animated.Text
                   style={{
                     textAlign: "center",
-                    color: "#222831",
+                    color: darkMode ? "#e5e5e5" : "#222831",
                     opacity,
                   }}
                   className="font-fontMedium"
@@ -303,6 +317,7 @@ export default function Onboarding({ navigation }: OnboardingProps) {
                 <Buttons
                   navigation={navigation}
                   scrollX={scrollX}
+                  darkMode={darkMode}
                   index={index}
                   onPress={() => {
                     if (FlatListRef.current && index < 2) {
@@ -323,12 +338,3 @@ export default function Onboarding({ navigation }: OnboardingProps) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f6f5f5",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

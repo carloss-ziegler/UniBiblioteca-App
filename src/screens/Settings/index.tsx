@@ -1,13 +1,14 @@
-import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
-import React, { useLayoutEffect, useRef, useState } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import React, { useContext, useLayoutEffect } from "react";
 import { Entypo } from "@expo/vector-icons";
 import { NavigationStackProp } from "react-navigation-stack";
+import AuthContext from "../../contexts/Auth/auth";
 
 interface SettingsProps {
   navigation: NavigationStackProp;
 }
 const Settings = ({ navigation }: SettingsProps) => {
-  const [loading, setLoading] = useState<boolean>(false);
+  const { signOut, darkMode } = useContext(AuthContext);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -15,7 +16,12 @@ const Settings = ({ navigation }: SettingsProps) => {
       headerTitle: () => {
         return (
           <>
-            <Text className="font-fontSemibold text-textBlack">
+            <Text
+              style={{
+                color: darkMode ? "#f6f5f5" : "#222831",
+              }}
+              className="font-fontSemibold"
+            >
               Configurações
             </Text>
           </>
@@ -25,104 +31,156 @@ const Settings = ({ navigation }: SettingsProps) => {
         return (
           <TouchableOpacity
             onPress={() => navigation.goBack()}
-            className="flex-row items-center"
+            className="flex-row items-center ml-2"
           >
-            <Entypo name="chevron-left" size={32} color="#1687A7" />
-            <Text className="text-[#1687A7] font-fontSemibold text-base">
+            <Entypo
+              name="chevron-thin-left"
+              size={24}
+              color={darkMode ? "#e5e5e5" : "#1687a7"}
+            />
+            <Text
+              style={{
+                color: darkMode ? "#e5e5e5" : "#1687a7",
+              }}
+              className="font-fontSemibold text-base"
+            >
               Voltar
             </Text>
           </TouchableOpacity>
         );
       },
+      headerStyle: {
+        backgroundColor: darkMode ? "#000" : undefined,
+      },
+      headerShadowVisible: darkMode ? false : undefined,
     });
   }, []);
 
+  function handleSignOut() {
+    signOut();
+  }
+
   return (
-    <View className="flex-1 bg-textWhite p-3">
-      <Text className="font-fontSemibold text-textBlack text-base">
+    <View
+      style={{
+        backgroundColor: darkMode ? "#151515" : "#f6f5f5",
+      }}
+      className="flex-1 p-3"
+    >
+      <Text
+        style={{
+          color: darkMode ? "#e5e5e5" : "#222831",
+        }}
+        className="font-fontSemibold text-base"
+      >
         Opções de notificação:
       </Text>
 
       <View className="mt-3 space-y-4">
         <TouchableOpacity className="flex-row items-center justify-between">
-          <Text className="text-textBlack font-fontMedium">
+          <Text
+            style={{
+              color: darkMode ? "#e5e5e5" : "#222831",
+            }}
+            className="font-fontMedium"
+          >
             Notificações de push
           </Text>
 
-          <Entypo name="chevron-right" size={16} color="#222831" />
+          <Entypo
+            name="chevron-right"
+            size={16}
+            color={darkMode ? "#e5e5e5" : "#222831"}
+          />
         </TouchableOpacity>
 
         <TouchableOpacity className="flex-row items-center justify-between">
-          <Text className="text-textBlack font-fontMedium">
+          <Text
+            style={{
+              color: darkMode ? "#e5e5e5" : "#222831",
+            }}
+            className="font-fontMedium"
+          >
             Notificações por E-Mail/SMS
           </Text>
 
-          <Entypo name="chevron-right" size={16} color="#222831" />
+          <Entypo
+            name="chevron-right"
+            size={16}
+            color={darkMode ? "#e5e5e5" : "#222831"}
+          />
         </TouchableOpacity>
       </View>
 
-      <View className="h-[0.6px] bg-[#bbbbbbbb] w-full mt-3" />
+      <View
+        style={{
+          backgroundColor: darkMode ? "#666" : "#bbbbbbbb",
+        }}
+        className="h-[0.6px] w-full mt-3"
+      />
 
-      <Text className="font-fontSemibold text-textBlack text-base mt-5">
+      <Text
+        style={{
+          color: darkMode ? "#e5e5e5" : "#222831",
+        }}
+        className="font-fontSemibold text-base mt-5"
+      >
         Outras opções:
       </Text>
 
       <View className="mt-3 space-y-4">
         <TouchableOpacity className="flex-row items-center justify-between">
-          <Text className="text-textBlack font-fontMedium">Idioma</Text>
+          <Text
+            style={{
+              color: darkMode ? "#e5e5e5" : "#222831",
+            }}
+            className="font-fontMedium"
+          >
+            Idioma
+          </Text>
 
-          <Text className="font-fontMedium text-textBlack opacity-60 text-xs">
+          <Text
+            style={{
+              color: darkMode ? "#e5e5e5" : "#222831",
+            }}
+            className="font-fontMedium opacity-60 text-xs"
+          >
             Português
           </Text>
         </TouchableOpacity>
 
-        {/* <TouchableOpacity
-          onPress={() => {
-            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-            bottomSheet?.current?.show();
-          }}
-          className="flex-row items-center justify-between"
-        >
-          <Text className="text-textBlack font-fontMedium">Tema</Text>
-
-          <View className="flex-row items-center space-x-1">
-            <Text className="font-fontMedium text-textBlack opacity-60 text-xs">
-              Claro
-            </Text>
-            <Entypo name="chevron-down" size={16} color="#22283190" />
-          </View>
-        </TouchableOpacity> */}
-
         <TouchableOpacity className="flex-row items-center justify-between">
-          <Text className="text-textBlack font-fontMedium">Sobre</Text>
+          <Text
+            style={{
+              color: darkMode ? "#e5e5e5" : "#222831",
+            }}
+            className="font-fontMedium"
+          >
+            Sobre
+          </Text>
 
-          <Entypo name="chevron-right" size={16} color="#222831" />
+          <Entypo
+            name="chevron-right"
+            size={16}
+            color={darkMode ? "#e5e5e5" : "#222831"}
+          />
         </TouchableOpacity>
       </View>
 
       <View className="bg-[#bbbbbbbb] h-[0.6px] w-full mt-3" />
 
-      <TouchableOpacity
-        onPress={async () => {
-          setLoading(true);
-          await new Promise((resolve) => setTimeout(resolve, 1000));
-          navigation.reset({
-            routes: [{ name: "Authentication" }],
-          });
-          setLoading(false);
-        }}
-        className="mt-3"
-      >
-        {loading ? (
-          <ActivityIndicator color="#222831" />
-        ) : (
-          <Text className="font-fontSemibold text-base text-[#E72430]">
-            Sair de Lucas Carlos
-          </Text>
-        )}
+      <TouchableOpacity onPress={handleSignOut} className="mt-3">
+        <Text className="font-fontSemibold text-base text-[#E72430]">
+          Sair de Lucas Carlos
+        </Text>
       </TouchableOpacity>
 
-      <Text className="self-center absolute bottom-10 font-fontMedium opacity-50">
+      <Text
+        style={{
+          color: darkMode ? "#e5e5e5" : "#222831",
+        }}
+        className="self-center absolute bottom-10 font-fontMedium opacity-30"
+      >
         Versão 1.0.0
       </Text>
     </View>

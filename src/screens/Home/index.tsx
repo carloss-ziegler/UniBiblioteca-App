@@ -16,6 +16,7 @@ import BooksCarousel from "../../components/BooksCarousel";
 import axios from "axios";
 import Bg from "../../../assets/images/bg_3.png";
 import Logo from "../../../assets/images/Logo2.png";
+import WhiteLogo from "../../../assets/images/LogoBranco.png";
 import { useDrawerProgress } from "@react-navigation/drawer";
 import Animated, {
   Extrapolate,
@@ -26,12 +27,15 @@ import Animated, {
 } from "react-native-reanimated";
 import * as Haptics from "expo-haptics";
 import * as Animatable from "react-native-animatable";
+import AuthContext from "../../contexts/Auth/auth";
+import { StatusBar } from "expo-status-bar";
 
 const { width } = Dimensions.get("screen");
 
 const categories = ["Tecnologia", "Saúde", "Direito", "Economia"];
 
 const Home = ({ navigation }) => {
+  const { darkMode } = React.useContext(AuthContext);
   const [books, setBooks] = useState([]);
   const [books2, setBooks2] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -114,14 +118,29 @@ const Home = ({ navigation }) => {
       <Animated.View
         style={{
           paddingTop: 24,
+          height: 80,
+          borderBottomWidth: 1,
+          borderColor: "#33333333",
+          flexDirection: "row",
+          width: "100%",
+          alignItems: "center",
+          paddingHorizontal: 16,
+          backgroundColor: darkMode ? "#000" : "#fafafa",
         }}
-        className="h-20 border-b bg-light-bg border-light-borderGrey flex-row w-full items-center justify-between px-4"
       >
         <TouchableOpacity onPress={() => navigation.openDrawer()}>
-          <MaterialIcons name="menu-open" size={28} color="#1687A7" />
+          <MaterialIcons
+            name="menu-open"
+            size={28}
+            color={darkMode ? "#f6f5f5" : "#1687A7"}
+          />
         </TouchableOpacity>
 
-        <Image source={Logo} className="h-14 mx-auto" resizeMode="contain" />
+        <Image
+          source={darkMode ? WhiteLogo : Logo}
+          className="h-12 mx-auto"
+          resizeMode="cover"
+        />
 
         <TouchableOpacity
           onPress={() => {
@@ -132,7 +151,7 @@ const Home = ({ navigation }) => {
           <MaterialIcons
             name="search"
             size={28}
-            color="#1687a7"
+            color={darkMode ? "#f6f5f5" : "#1687A7"}
             style={{ justifyContent: "flex-end" }}
           />
         </TouchableOpacity>
@@ -142,23 +161,14 @@ const Home = ({ navigation }) => {
         ref={scrollViewRef}
         onScroll={scrollHandler}
         keyboardDismissMode="on-drag"
+        bounces={false}
         contentContainerStyle={{
           paddingBottom: 30,
+          flexGrow: 1,
+          paddingHorizontal: 12,
+          backgroundColor: darkMode ? "#151515" : "#f6f5f5",
         }}
         scrollEventThrottle={16}
-        // onScrollEndDrag={(event) => {
-        //   if (
-        //     event.nativeEvent.contentOffset.y > 25 &&
-        //     event.nativeEvent.contentOffset.y < 100
-        //   ) {
-        //     scrollViewRef.current?.scrollTo({
-        //       x: 0,
-        //       y: 220,
-        //       animated: true,
-        //     });
-        //   }
-        // }}
-        className="flex-1 bg-light-bgSoft px-3"
       >
         <Animated.View style={[imageStyles]}>
           <ImageBackground
@@ -168,7 +178,7 @@ const Home = ({ navigation }) => {
             borderRadius={16}
           >
             <View className="px-3 py-1 items-center justify-center space-y-2">
-              <Text className="text-light-textColor font-fontSemibold text-center text-lg">
+              <Text className="text-light-bgSoft font-fontSemibold text-center text-lg">
                 Compartilhe o app com seus amigos!
               </Text>
 
@@ -192,12 +202,22 @@ const Home = ({ navigation }) => {
 
         <View className="mt-6">
           <View className="flex-row items-center justify-between">
-            <Text className="font-fontBold text-base text-light-textColor">
+            <Text
+              style={{
+                color: darkMode ? "#e5e5e5" : "#222831",
+              }}
+              className="font-fontBold text-base"
+            >
               Recomendados
             </Text>
 
             <View className="flex-1 items-center flex-row justify-end">
-              <Text className="text-xs font-fontSemibold text-light-textColor mr-1">
+              <Text
+                style={{
+                  color: darkMode ? "#e5e5e5" : "#222831",
+                }}
+                className="text-xs font-fontSemibold mr-1"
+              >
                 Filtro:
               </Text>
 
@@ -244,7 +264,7 @@ const Home = ({ navigation }) => {
 
           {loading ? (
             <View className="items-center justify-center">
-              <ActivityIndicator color="#222831" />
+              <ActivityIndicator color={darkMode ? "#e5e5e5" : "#222831"} />
             </View>
           ) : (
             <FlatList
@@ -263,12 +283,17 @@ const Home = ({ navigation }) => {
             />
           )}
 
-          <Text className={`text-base text-light-textColor mt-6 font-fontBold`}>
+          <Text
+            style={{
+              color: darkMode ? "#e5e5e5" : "#222831",
+            }}
+            className="text-base mt-6 font-fontBold"
+          >
             Continuar lendo
           </Text>
           {loading ? (
             <View className="items-center justify-center">
-              <ActivityIndicator color="#222831" />
+              <ActivityIndicator color={darkMode ? "#e5e5e5" : "#222831"} />
             </View>
           ) : (
             <FlatList
@@ -288,6 +313,7 @@ const Home = ({ navigation }) => {
           )}
         </View>
       </Animated.ScrollView>
+      <StatusBar style={darkMode ? "light" : "dark"} />
     </Animated.View>
   );
 };
