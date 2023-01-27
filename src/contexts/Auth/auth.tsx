@@ -45,6 +45,8 @@ export const AuthProvider = ({ children }: ProviderProps) => {
 
       if (response != null) {
         setDarkMode(true);
+      } else if (response == null) {
+        setDarkMode(false);
       }
     }
     setDarkModeOnLoad();
