@@ -110,7 +110,7 @@ const BookDetail = ({ navigation, route }) => {
             height: height / 3,
             borderRadius: 8,
           }}
-          resizeMode="stretch"
+          resizeMode="cover"
         />
 
         <TouchableOpacity
@@ -180,53 +180,55 @@ const BookDetail = ({ navigation, route }) => {
         >
           <View
             style={{ backgroundColor: darkMode ? "#252525" : "#f6f5f5" }}
-            className="self-center flex-row my-5 py-4 items-center justify-evenly w-full rounded"
+            className="self-center flex-row my-5 py-3 px-4 items-center justify-evenly w-full rounded"
           >
-            <View className="items-center">
-              <Text
-                style={{
-                  color: darkMode ? "#e5e5e5" : "#222831",
-                }}
-                className="font-fontSemibold text-base"
-              >
-                <AntDesign name="star" size={16} color="#FCB404" /> 4.6
-                <Text className="text-xs text-grey-primary">/5</Text>
-              </Text>
-              <Text className="font-fontMedium text-light-textGraySecondary text-xs">
-                Avaliação
-              </Text>
-            </View>
+            <View className="flex-row items-center justify-between w-full">
+              <View className="items-center py-1">
+                <Text
+                  style={{
+                    color: darkMode ? "#e5e5e5" : "#222831",
+                  }}
+                  className="font-fontSemibold text-base"
+                >
+                  <AntDesign name="star" size={16} color="#FCB404" /> 4.6
+                  <Text className="text-xs text-grey-primary">/5</Text>
+                </Text>
+                <Text className="font-fontMedium text-light-textGraySecondary text-xs">
+                  Avaliação
+                </Text>
+              </View>
 
-            <View className="h-full w-[1px] bg-light-textColor opacity-20" />
+              <View className="h-full w-[1px] bg-light-textColor opacity-20" />
 
-            <View className="items-center">
-              <Text
-                style={{
-                  color: darkMode ? "#e5e5e5" : "#222831",
-                }}
-                className="font-fontSemibold text-base"
-              >
-                {item.volumeInfo?.language}
-              </Text>
-              <Text className="font-fontMedium text-light-textGraySecondary text-xs">
-                Idioma
-              </Text>
-            </View>
+              <View className="items-center">
+                <Text
+                  style={{
+                    color: darkMode ? "#e5e5e5" : "#222831",
+                  }}
+                  className="font-fontSemibold text-base"
+                >
+                  {item.volumeInfo?.language}
+                </Text>
+                <Text className="font-fontMedium text-light-textGraySecondary text-xs">
+                  Idioma
+                </Text>
+              </View>
 
-            <View className="h-full w-[1px] bg-light-textColor opacity-20" />
+              <View className="h-full w-[1px] bg-light-textColor opacity-20" />
 
-            <View className="items-center">
-              <Text
-                style={{
-                  color: darkMode ? "#e5e5e5" : "#222831",
-                }}
-                className="font-fontSemibold text-base"
-              >
-                {item.volumeInfo?.pageCount}
-              </Text>
-              <Text className="font-fontMedium text-light-textGraySecondary text-xs">
-                N° de páginas
-              </Text>
+              <View className="items-center">
+                <Text
+                  style={{
+                    color: darkMode ? "#e5e5e5" : "#222831",
+                  }}
+                  className="font-fontSemibold text-base"
+                >
+                  {item.volumeInfo?.pageCount}
+                </Text>
+                <Text className="font-fontMedium text-light-textGraySecondary text-xs">
+                  N° de páginas
+                </Text>
+              </View>
             </View>
           </View>
 

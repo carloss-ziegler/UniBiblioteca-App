@@ -1,6 +1,6 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
-import { BookProps } from "../utils/types";
+import { SharedElement } from "react-navigation-shared-element/build/v4";
 import AuthContext from "../contexts/Auth/auth";
 
 const BooksCarousel = ({ book }) => {

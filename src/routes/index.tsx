@@ -9,7 +9,7 @@ const Routes: React.FC = () => {
 
   if (componentLoading) {
     return (
-      <View className="flex-1 items-center justify-center">
+      <View className="h-screen flex-1 items-center justify-center">
         <ActivityIndicator size="large" color="#1687a7" />
       </View>
     );

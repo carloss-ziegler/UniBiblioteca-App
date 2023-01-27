@@ -34,6 +34,8 @@ export const AuthProvider = ({ children }: ProviderProps) => {
       if (storagedToken && storagedUser) {
         setUser(JSON.parse(storagedUser));
         setComponentLoading(false);
+      } else {
+        setComponentLoading(false);
       }
     }
     loadStoragedData();
@@ -45,7 +47,7 @@ export const AuthProvider = ({ children }: ProviderProps) => {
 
       if (response != null) {
         setDarkMode(true);
-      } else if (response == null) {
+      } else if (response === null) {
         setDarkMode(false);
       }
     }

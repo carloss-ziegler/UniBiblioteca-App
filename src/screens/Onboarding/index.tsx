@@ -232,7 +232,7 @@ export default function Onboarding({ navigation }: OnboardingProps) {
       }}
     >
       <StatusBar style={darkMode ? "light" : "dark"} />
-      {/* <Backdrop scrollX={scrollX} /> */}
+
       <Animated.FlatList
         ref={FlatListRef}
         data={DATA}

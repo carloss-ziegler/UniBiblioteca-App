@@ -42,6 +42,7 @@ const Search = ({ navigation }) => {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
+      headerTintColor: darkMode ? "#e5e5e5" : "#222831",
       headerTitle: () => {
         return (
           <>
@@ -57,29 +58,30 @@ const Search = ({ navigation }) => {
         );
       },
       headerLeft:
-        Platform.OS === "ios" &&
-        function () {
-          return (
-            <TouchableOpacity
-              onPress={() => navigation.goBack()}
-              className="flex-row items-center ml-2"
-            >
-              <Entypo
-                name="chevron-thin-left"
-                size={24}
-                color={darkMode ? "#e5e5e5" : "#1687a7"}
-              />
-              <Text
-                style={{
-                  color: darkMode ? "#e5e5e5" : "#1687a7",
-                }}
-                className="font-fontMedium text-base"
-              >
-                Voltar
-              </Text>
-            </TouchableOpacity>
-          );
-        },
+        Platform.OS === "ios"
+          ? function () {
+              return (
+                <TouchableOpacity
+                  onPress={() => navigation.goBack()}
+                  className="flex-row items-center ml-2"
+                >
+                  <Entypo
+                    name="chevron-thin-left"
+                    size={24}
+                    color={darkMode ? "#e5e5e5" : "#1687a7"}
+                  />
+                  <Text
+                    style={{
+                      color: darkMode ? "#e5e5e5" : "#1687a7",
+                    }}
+                    className="font-fontMedium text-base"
+                  >
+                    Voltar
+                  </Text>
+                </TouchableOpacity>
+              );
+            }
+          : undefined,
       headerStyle: {
         backgroundColor: darkMode ? "#000" : undefined,
       },

@@ -59,7 +59,7 @@ const HorizontalBookCard = ({
         >
           <Image
             source={{ uri: item.volumeInfo.imageLinks.thumbnail }}
-            resizeMode="stretch"
+            resizeMode="cover"
             style={{ height: height * 0.3, width: width * 0.4 }}
             borderRadius={16}
           />
