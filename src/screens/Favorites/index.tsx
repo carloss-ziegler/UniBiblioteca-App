@@ -35,10 +35,11 @@ const OverflowItems = ({ data, scrollXAnimated, darkMode }) => {
     inputRange,
     outputRange: [OVERFLOW_HEIGHT, 0, -OVERFLOW_HEIGHT],
   });
+
   return (
     <View style={styles.overflowContainer}>
       <Animated.View style={{ transform: [{ translateY }] }}>
-        {data.map((item, index) => {
+        {data?.map((item, index) => {
           return (
             <View key={index} style={styles.itemContainer}>
               <Text
@@ -51,7 +52,7 @@ const OverflowItems = ({ data, scrollXAnimated, darkMode }) => {
                 ]}
                 numberOfLines={1}
               >
-                {item.volumeInfo?.title}
+                {item?.volumeInfo.title}
               </Text>
               <View style={styles.itemContainerRow}>
                 <Text
@@ -63,7 +64,7 @@ const OverflowItems = ({ data, scrollXAnimated, darkMode }) => {
                     },
                   ]}
                 >
-                  {item.volumeInfo?.authors[0]}
+                  {item?.volumeInfo.authors}
                 </Text>
                 <Text
                   className="font-fontMedium"
@@ -89,14 +90,11 @@ export default function Favorites({ navigation }) {
   const { darkMode } = React.useContext(AuthContext);
   React.useEffect(() => {
     const fetchBooks = async () => {
-      await axios
-        .get(
-          `https://www.googleapis.com/books/v1/volumes?q=java&printType=books&key=AIzaSyAtenw6fsNwoK-bHEPUfWTSbEFs6cVjGKc&maxResults=30`
-        )
-        .then((data) => {
-          setData(data.data.items);
-          setLoading(false);
-        });
+      const response = await axios.get(
+        `https://www.googleapis.com/books/v1/volumes?q=java&printType=books&key=AIzaSyAtenw6fsNwoK-bHEPUfWTSbEFs6cVjGKc&maxResults=30`
+      );
+      setData(response.data.items);
+      setLoading(false);
     };
     fetchBooks();
   }, []);
@@ -291,7 +289,7 @@ export default function Favorites({ navigation }) {
                             height: ITEM_HEIGHT / 1.2,
                             borderRadius: 14,
                           }}
-                          resizeMode="stretch"
+                          resizeMode="cover"
                         />
                       </SharedElement>
                     </TouchableOpacity>
