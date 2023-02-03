@@ -10,7 +10,7 @@ import {
   Platform,
   Dimensions,
   ScrollView,
-  Image,
+  StyleSheet,
 } from "react-native";
 import { Entypo, Feather } from "@expo/vector-icons";
 import Animated, {
@@ -83,16 +83,16 @@ const Search = ({ navigation }) => {
             }
           : undefined,
       headerStyle: {
-        backgroundColor: darkMode ? "#000" : undefined,
+        backgroundColor: darkMode ? "#010101" : "#fafafa",
       },
-      headerShadowVisible: darkMode ? false : undefined,
+      headerShadowVisible: false,
     });
   }, []);
 
   const searchBarAnimatedStyle = useAnimatedStyle(() => {
     return {
-      height: interpolate(scrollY.value, [0, 80], [55, 0], Extrapolate.CLAMP),
-      opacity: interpolate(scrollY.value, [0, 80], [1, 0], Extrapolate.CLAMP),
+      height: interpolate(scrollY.value, [0, 40], [40, 0], Extrapolate.CLAMP),
+      opacity: interpolate(scrollY.value, [0, 30], [1, 0], Extrapolate.CLAMP),
     };
   });
 
@@ -122,76 +122,62 @@ const Search = ({ navigation }) => {
         bounces={false}
         onScrollEndDrag={(event) => {
           if (
-            event.nativeEvent.contentOffset.y > 7 &&
-            event.nativeEvent.contentOffset.y < 50
+            event.nativeEvent.contentOffset.y > 1 &&
+            event.nativeEvent.contentOffset.y < 35
           ) {
             scrollViewRef.current?.scrollTo({
               x: 0,
-              y: 50,
+              y: 35,
               animated: true,
             });
           }
         }}
         onScroll={onScroll}
-        className="flex-1 px-3"
+        className="flex-1"
         contentContainerStyle={{ paddingBottom: 24 }}
         style={{
-          backgroundColor: darkMode ? "#151515" : "#f6f5f5",
+          backgroundColor: darkMode ? "#1c1c1e" : "#f2f1f6",
         }}
       >
-        <Animated.View
-          style={[searchBarAnimatedStyle]}
-          className="flex-row shadow items-center justify-center mt-3 h-12"
+        <View
+          style={{
+            backgroundColor: darkMode ? "#010101" : "#fafafa",
+            borderBottomWidth: StyleSheet.hairlineWidth,
+            borderBottomColor: darkMode ? "#66666699" : "#d8d8d8",
+          }}
+          className="justify-center p-3"
         >
-          <View
-            style={{
-              backgroundColor: darkMode ? "#252525" : "#fafafa",
-            }}
-            className="rounded-tl-3xl rounded-bl-3xl shadow-sm flex-row items-center px-2 flex-[0.85]"
+          <Animated.View
+            style={[
+              searchBarAnimatedStyle,
+              {
+                backgroundColor: darkMode ? "#2a2a2c" : "#EEEEF0",
+              },
+            ]}
+            className="rounded-xl flex-row items-center px-3 space-x-2 flex-1"
           >
+            <Feather name="search" size={20} color="#8c8c8c" />
+
             <TextInput
               autoCapitalize="none"
-              // value={searchInput}
-              // onChangeText={(text) => setSearchInput(text)}
               placeholder="Autores, títulos ou categorias"
-              className="flex-1 placeholder:text-xs h-12 px-3"
+              className="flex-1 placeholder:text-sm h-10"
               returnKeyType="done"
-              placeholderTextColor={darkMode && "#7c7c7c"}
+              placeholderTextColor={darkMode && "#8c8c8c"}
               style={{
                 color: darkMode ? "#e5e5e5" : undefined,
               }}
               // onSubmitEditing={searchBook}
             />
-          </View>
+          </Animated.View>
+        </View>
 
-          <View
-            style={{
-              backgroundColor: darkMode ? "#666" : "#33333333",
-            }}
-            className="w-[0.5px] opacity-40"
-          />
-
-          <TouchableOpacity
-            style={{
-              backgroundColor: darkMode ? "#252525" : "#fafafa",
-            }}
-            className="items-center rounded-tr-3xl rounded-br-3xl flex-[0.15] shadow-sm justify-center h-12"
-            //   onPress={searchBook}
-          >
-            <Feather
-              name="search"
-              size={20}
-              color={darkMode ? "#f6f5f5" : "#1687A7"}
-            />
-          </TouchableOpacity>
-        </Animated.View>
-
-        <View className="flex-row items-center justify-between mt-7">
+        <View className="flex-row items-center justify-between mt-5 px-3">
           <Text
             style={{
               color: darkMode ? "#e5e5e5" : "#222831",
             }}
-            className="font-fontSemibold text-xl"
+            className="font-fontSemibold text-lg"
           >
             Recente
           </Text>
@@ -203,13 +189,13 @@ const Search = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        <View className="min-h-[150px] bg-dark-textGrayPrimary rounded-xl"></View>
+        <View className="min-h-[150px] px-3 rounded-xl"></View>
 
         <Text
           style={{
             color: darkMode ? "#e5e5e5" : "#222831",
           }}
-          className="font-fontSemibold text-xl mt-5"
+          className="font-fontSemibold text-lg mt-5 px-3"
         >
           Livros em alta
         </Text>
@@ -252,7 +238,7 @@ const Search = ({ navigation }) => {
           style={{
             color: darkMode ? "#e5e5e5" : "#222831",
           }}
-          className="font-fontSemibold text-xl"
+          className="font-fontSemibold text-lg px-3"
         >
           Autores em alta
         </Text>

@@ -11,7 +11,7 @@ const BooksCarousel = ({ book }) => {
   }
 
   return (
-    <TouchableOpacity className="mt-2 mr-3">
+    <TouchableOpacity className="mt-1 mr-3">
       <Image
         source={{
           uri:

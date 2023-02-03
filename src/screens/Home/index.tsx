@@ -8,6 +8,7 @@ import {
   FlatList,
   TouchableOpacity,
   ImageBackground,
+  StyleSheet,
 } from "react-native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
@@ -119,13 +120,13 @@ const Home = ({ navigation }) => {
         style={{
           paddingTop: 24,
           height: 80,
-          borderBottomWidth: 1,
-          borderColor: "#33333333",
+          borderBottomWidth: StyleSheet.hairlineWidth,
+          borderColor: darkMode ? "#66666699" : "#d8d8d8",
           flexDirection: "row",
           width: "100%",
           alignItems: "center",
           paddingHorizontal: 16,
-          backgroundColor: darkMode ? "#000" : "#fafafa",
+          backgroundColor: darkMode ? "#010101" : "#fafafa",
         }}
       >
         <TouchableOpacity onPress={() => navigation.openDrawer()}>
@@ -166,7 +167,7 @@ const Home = ({ navigation }) => {
           paddingBottom: 30,
           flexGrow: 1,
           paddingHorizontal: 12,
-          backgroundColor: darkMode ? "#151515" : "#f6f5f5",
+          backgroundColor: darkMode ? "#1c1c1e" : "#f2f1f6",
         }}
         scrollEventThrottle={16}
       >
@@ -206,7 +207,7 @@ const Home = ({ navigation }) => {
               style={{
                 color: darkMode ? "#e5e5e5" : "#222831",
               }}
-              className="font-fontBold text-base"
+              className="font-fontBold text-sm"
             >
               Recomendados
             </Text>
@@ -287,7 +288,7 @@ const Home = ({ navigation }) => {
             style={{
               color: darkMode ? "#e5e5e5" : "#222831",
             }}
-            className="text-base mt-6 font-fontBold"
+            className="text-sm mt-6 font-fontBold"
           >
             Continuar lendo
           </Text>

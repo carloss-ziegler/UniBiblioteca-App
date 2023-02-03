@@ -139,7 +139,7 @@ export default function Favorites({ navigation }) {
         );
       },
       headerStyle: {
-        backgroundColor: darkMode ? "#000" : undefined,
+        backgroundColor: darkMode ? "#010101" : undefined,
       },
       headerShadowVisible: darkMode ? false : undefined,
     });
@@ -198,7 +198,7 @@ export default function Favorites({ navigation }) {
       >
         <SafeAreaView
           style={{
-            backgroundColor: darkMode ? "#121212" : "#f6f5f5",
+            backgroundColor: darkMode ? "#1c1c1e" : "#f2f1f6",
           }}
           className="flex-1"
         >

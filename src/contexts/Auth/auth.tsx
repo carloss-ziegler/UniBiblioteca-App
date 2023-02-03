@@ -2,6 +2,9 @@ import React, { createContext } from "react";
 import * as auth from "../../services/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+interface ProviderProps {
+  children: React.ReactNode;
+}
 interface AuthContextData {
   signed: boolean;
   user: object | null;
@@ -12,10 +15,6 @@ interface AuthContextData {
   darkMode: boolean;
   setDarkModeToggler(): void;
   setLightModeToggler(): void;
-}
-
-interface ProviderProps {
-  children: React.ReactNode;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -33,10 +32,8 @@ export const AuthProvider = ({ children }: ProviderProps) => {
 
       if (storagedToken && storagedUser) {
         setUser(JSON.parse(storagedUser));
-        setComponentLoading(false);
-      } else {
-        setComponentLoading(false);
       }
+      setComponentLoading(false);
     }
     loadStoragedData();
   }, []);

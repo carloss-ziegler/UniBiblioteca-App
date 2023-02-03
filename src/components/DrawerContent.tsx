@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Dimensions, Switch } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+  Switch,
+  StyleSheet,
+} from "react-native";
 import { ParamListBase, DrawerNavigationState } from "@react-navigation/native";
 import {
   DrawerDescriptorMap,
@@ -15,6 +22,7 @@ import DrawerItem from "./DrawerItem";
 import BottomSheet from "react-native-gesture-bottom-sheet";
 import * as Haptics from "expo-haptics";
 import AuthContext from "../contexts/Auth/auth";
+import { LinearGradient } from "expo-linear-gradient";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -71,6 +79,7 @@ const CustomDrawer = ({ state, navigation, descriptors }: DrawerProps) => {
       style={[viewStyles, { width: width * 0.6 }]}
       className="flex-1"
     >
+      <LinearGradient colors={["rgba(0,0,0,0.8)", "transparent"]} />
       <View className="p-4 flex-1 justify-evenly">
         <Animated.View
           style={[viewStyles2]}
@@ -153,12 +162,18 @@ const CustomDrawer = ({ state, navigation, descriptors }: DrawerProps) => {
 
           <BottomSheet
             radius={24}
-            sheetBackgroundColor={darkMode ? "#000" : "#f6f5f5"}
+            sheetBackgroundColor={darkMode ? "#010101" : "#f2f1f6"}
             hasDraggableIcon
             ref={bottomSheet}
             height={height * 0.3}
           >
-            <View className="space-y-1">
+            <View
+              style={{
+                borderBottomColor: darkMode ? "#66666699" : "#d5d5d5",
+                borderBottomWidth: StyleSheet.hairlineWidth,
+              }}
+              className="space-y-1 pb-1"
+            >
               <Text
                 style={{
                   color: darkMode ? "#e5e5e5" : "#222831",
@@ -167,13 +182,6 @@ const CustomDrawer = ({ state, navigation, descriptors }: DrawerProps) => {
               >
                 Tema
               </Text>
-
-              <View
-                style={{
-                  backgroundColor: darkMode ? "#666" : "#33333333",
-                }}
-                className="w-full h-[0.5px]"
-              />
             </View>
 
             <View className="p-4 flex-1">
