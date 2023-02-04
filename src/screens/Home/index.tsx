@@ -185,7 +185,7 @@ const Home = ({ navigation }) => {
             className="w-full h-52 mt-2 items-center justify-center shadow"
             borderRadius={16}
           >
-            <View className="px-3 py-1 items-center justify-center space-y-2">
+            {/* <View className="px-3 py-1 items-center justify-center space-y-2">
               <Text className="text-light-bgSoft font-fontSemibold text-center text-lg">
                 Compartilhe o app com seus amigos!
               </Text>
@@ -204,7 +204,7 @@ const Home = ({ navigation }) => {
                   Compartilhar
                 </Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
           </ImageBackground>
         </Animated.View>
 

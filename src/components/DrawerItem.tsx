@@ -1,5 +1,6 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
+import AuthContext from "../contexts/Auth/auth";
 
 interface Props {
   icon: JSX.Element;
@@ -9,6 +10,8 @@ interface Props {
 }
 
 const DrawerItem = ({ icon, title, button, onPress }: Props) => {
+  const { darkMode } = React.useContext(AuthContext);
+
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -16,7 +19,12 @@ const DrawerItem = ({ icon, title, button, onPress }: Props) => {
     >
       <View className="flex-row items-center justify-between space-x-4">
         <Text>{icon}</Text>
-        <Text className="font-fontBold text-light-textWhite">{title}</Text>
+        <Text
+          style={{ color: darkMode ? "#e5e5e5" : "#222831" }}
+          className="font-fontBold"
+        >
+          {title}
+        </Text>
       </View>
 
       {button && button}

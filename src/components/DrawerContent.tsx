@@ -79,17 +79,22 @@ const CustomDrawer = ({ state, navigation, descriptors }: DrawerProps) => {
       style={[viewStyles, { width: width * 0.6 }]}
       className="flex-1"
     >
-      <LinearGradient colors={["rgba(0,0,0,0.8)", "transparent"]} />
-      <View className="p-4 flex-1 justify-evenly">
+      <View className="p-4 flex-1 mt-16">
         <Animated.View
           style={[viewStyles2]}
           className="flex-row items-center justify-between"
         >
           <View>
-            <Text className="text-base font-fontSemibold text-light-textWhite">
+            <Text
+              style={{ color: darkMode ? "#e5e5e5" : "#222831" }}
+              className="text-base font-fontSemibold"
+            >
               Lucas Carlos
             </Text>
-            <Text className="text-xs font-fontSemibold text-light-textWhite opacity-60">
+            <Text
+              style={{ color: darkMode ? "#e5e5e5" : "#222831" }}
+              className="text-xs font-fontSemibold opacity-60"
+            >
               lucas.carlos@a.ucb.br
             </Text>
           </View>
@@ -101,7 +106,7 @@ const CustomDrawer = ({ state, navigation, descriptors }: DrawerProps) => {
               <MaterialCommunityIcons
                 name="bookshelf"
                 size={24}
-                color="#f6f5f5"
+                color={darkMode ? "#e5e5e5" : "#222831"}
               />
             }
             title="Meu Acervo"
@@ -113,7 +118,7 @@ const CustomDrawer = ({ state, navigation, descriptors }: DrawerProps) => {
               <Feather
                 name={darkMode ? "sun" : "moon"}
                 size={24}
-                color="#f6f5f5"
+                color={darkMode ? "#e5e5e5" : "#222831"}
               />
             }
             title="Alterar tema"
@@ -126,19 +131,34 @@ const CustomDrawer = ({ state, navigation, descriptors }: DrawerProps) => {
           />
 
           <DrawerItem
-            icon={<Feather name="settings" size={24} color="#f6f5f5" />}
+            icon={
+              <Feather
+                name="settings"
+                size={24}
+                color={darkMode ? "#e5e5e5" : "#222831"}
+              />
+            }
             title="Configurações"
             onPress={() => navigation.navigate("Settings")}
           />
         </View>
 
-        <Animated.View style={[viewStyles3]} className="space-y-3">
-          <View className="h-[0.5px] bg-light-textWhite opacity-30 w-full mt-3" />
+        <Animated.View
+          style={[viewStyles3]}
+          className="space-y-3 flex-1 justify-end"
+        >
+          <View
+            style={{ backgroundColor: darkMode ? "#66666699" : "#999" }}
+            className="h-[0.5px] opacity-30 w-full mt-3"
+          />
 
           <TouchableOpacity
             onPress={() => navigation.navigate("PrivacyPolicy")}
           >
-            <Text className="text-light-textWhite text-sm font-fontSemibold">
+            <Text
+              style={{ color: darkMode ? "#e5e5e5" : "#222831" }}
+              className=" text-sm font-fontSemibold"
+            >
               Política de Privacidade
             </Text>
           </TouchableOpacity>
@@ -146,22 +166,34 @@ const CustomDrawer = ({ state, navigation, descriptors }: DrawerProps) => {
           <TouchableOpacity
             onPress={() => navigation.navigate("TermsAndConditions")}
           >
-            <Text className="text-light-textWhite text-sm font-fontSemibold">
+            <Text
+              style={{ color: darkMode ? "#e5e5e5" : "#222831" }}
+              className="text-sm font-fontSemibold"
+            >
               Termos e Condições
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity>
-            <Text className="text-light-textWhite text-sm font-fontSemibold">
+            <Text
+              style={{ color: darkMode ? "#e5e5e5" : "#222831" }}
+              className="text-sm font-fontSemibold"
+            >
               Sobre Nós
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity>
-            <Text className="text-light-textWhite font-fontSemibold">
+            <Text
+              style={{ color: darkMode ? "#e5e5e5" : "#222831" }}
+              className="font-fontSemibold"
+            >
               Suporte
             </Text>
-            <Text className="text-xs text-light-textWhite">
+            <Text
+              style={{ color: darkMode ? "#e5e5e5" : "#222831" }}
+              className="text-xs "
+            >
               unibiblioteca@suporte.com
             </Text>
           </TouchableOpacity>

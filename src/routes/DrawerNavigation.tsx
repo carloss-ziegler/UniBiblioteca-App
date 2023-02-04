@@ -10,12 +10,12 @@ const DrawerNavigation = () => {
   return (
     <Drawer.Navigator
       screenOptions={{
-        drawerStyle: { backgroundColor: "#1A80D9" },
+        drawerStyle: { backgroundColor: darkMode ? "#252525" : "#e5e5e5" },
         drawerType: "slide",
         swipeEdgeWidth: 60,
         overlayColor: "transparent",
         sceneContainerStyle: {
-          backgroundColor: "#1A80D9",
+          backgroundColor: darkMode ? "#252525" : "#e5e5e5",
         },
       }}
       drawerContent={(props) => <CustomDrawer {...props} />}

@@ -146,7 +146,12 @@ const Settings = ({ navigation }: SettingsProps) => {
         >
           <View className="flex-row items-center justify-between">
             <View className="p-1 rounded bg-[#179E8D] items-center justify-center">
-              <Entypo name="notification" size={16} color="#fff" />
+              <Entypo
+                name="notification"
+                size={16}
+                color="#fff"
+                style={{ marginLeft: 2 }}
+              />
             </View>
             <View className="flex-row items-center justify-between flex-1 ml-3">
               <Text
