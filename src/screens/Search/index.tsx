@@ -23,6 +23,8 @@ import Animated, {
 import AuthContext from "../../contexts/Auth/auth";
 import axios from "axios";
 import HorizontalBookCard from "../../components/HorizontalBookCard";
+import Tag from "../../components/Tag";
+import Loader from "../../components/Loader";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -30,6 +32,7 @@ const Search = ({ navigation }) => {
   const { darkMode } = React.useContext(AuthContext);
   const scrollViewRef = React.useRef();
   const [topBooks, setTopBooks] = React.useState([]);
+  const [loading, setLoading] = React.useState<boolean>(true);
   const scrollY = useSharedValue(0);
   const onScroll = useAnimatedScrollHandler((event) => {
     scrollY.value = event.contentOffset.y;
@@ -106,12 +109,17 @@ const Search = ({ navigation }) => {
         ...response.data.items,
         { key: "right-spacer" },
       ]);
+      setLoading(false);
     };
     fetchBooks();
   }, []);
 
   const ITEM_SIZE = width * 0.55;
   const SPACER_ITEM_SIZE = (width - ITEM_SIZE) / 2;
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -189,7 +197,7 @@ const Search = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        <View className="min-h-[150px] px-3 rounded-xl"></View>
+        <View className="min-h-[100px] px-3 rounded-xl"></View>
 
         <Text
           style={{

@@ -30,6 +30,7 @@ import * as Haptics from "expo-haptics";
 import * as Animatable from "react-native-animatable";
 import AuthContext from "../../contexts/Auth/auth";
 import { StatusBar } from "expo-status-bar";
+import Loader from "../../components/Loader";
 
 const { width } = Dimensions.get("screen");
 
@@ -94,10 +95,12 @@ const Home = ({ navigation }) => {
       .then(([firstData, secondData]) => {
         setBooks(firstData.data.items);
         setBooks2(secondData.data.items);
-        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
@@ -113,6 +116,10 @@ const Home = ({ navigation }) => {
       translateY: 0,
     },
   };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <Animated.View style={[viewStyles]} className="flex-1">
@@ -263,26 +270,20 @@ const Home = ({ navigation }) => {
             </View>
           </View>
 
-          {loading ? (
-            <View className="items-center justify-center">
-              <ActivityIndicator color={darkMode ? "#e5e5e5" : "#222831"} />
-            </View>
-          ) : (
-            <FlatList
-              data={books}
-              pagingEnabled
-              snapToAlignment="start"
-              decelerationRate="fast"
-              snapToInterval={width * 0.5}
-              keyExtractor={(item) => item.id}
-              scrollEventThrottle={8}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              renderItem={({ item: book, index }) => {
-                return <BooksCarousel book={book} />;
-              }}
-            />
-          )}
+          <FlatList
+            data={books}
+            pagingEnabled
+            snapToAlignment="start"
+            decelerationRate="fast"
+            snapToInterval={width * 0.5}
+            keyExtractor={(item) => item.id}
+            scrollEventThrottle={8}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item: book, index }) => {
+              return <BooksCarousel book={book} />;
+            }}
+          />
 
           <Text
             style={{
@@ -292,26 +293,21 @@ const Home = ({ navigation }) => {
           >
             Continuar lendo
           </Text>
-          {loading ? (
-            <View className="items-center justify-center">
-              <ActivityIndicator color={darkMode ? "#e5e5e5" : "#222831"} />
-            </View>
-          ) : (
-            <FlatList
-              data={books2}
-              pagingEnabled
-              snapToAlignment="start"
-              decelerationRate="fast"
-              snapToInterval={width * 0.5}
-              keyExtractor={(item) => item.id}
-              scrollEventThrottle={8}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              renderItem={({ item: book, index }) => {
-                return <BooksCarousel book={book} />;
-              }}
-            />
-          )}
+
+          <FlatList
+            data={books2}
+            pagingEnabled
+            snapToAlignment="start"
+            decelerationRate="fast"
+            snapToInterval={width * 0.5}
+            keyExtractor={(item) => item.id}
+            scrollEventThrottle={8}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item: book, index }) => {
+              return <BooksCarousel book={book} />;
+            }}
+          />
         </View>
       </Animated.ScrollView>
       <StatusBar style={darkMode ? "light" : "dark"} />

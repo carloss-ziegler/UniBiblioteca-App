@@ -22,6 +22,7 @@ import { SharedElement } from "react-navigation-shared-element/build/v4";
 import axios from "axios";
 import { Entypo } from "@expo/vector-icons";
 import AuthContext from "../../contexts/Auth/auth";
+import Loader from "../../components/Loader";
 
 const OVERFLOW_HEIGHT = 70;
 const SPACING = 10;
@@ -171,6 +172,10 @@ export default function Favorites({ navigation }) {
     }).start();
   });
 
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <FlingGestureHandler
       key="left"
@@ -207,97 +212,88 @@ export default function Favorites({ navigation }) {
             data={data}
             scrollXAnimated={scrollXAnimated}
           />
-          {loading ? (
-            <View className="flex-1 items-center justify-center">
-              <ActivityIndicator
-                color={darkMode ? "#e5e5e5" : "#222831"}
-                size="large"
-              />
-            </View>
-          ) : (
-            <FlatList
-              data={data}
-              keyExtractor={(item) => item.id}
-              horizontal
-              inverted
-              contentContainerStyle={{
-                flex: 1,
-                justifyContent: "center",
-                padding: SPACING,
-                marginTop: height <= 500 ? 16 : 24,
-              }}
-              scrollEnabled={false}
-              removeClippedSubviews={false}
-              CellRendererComponent={({
-                item,
-                index,
-                children,
-                style,
-                ...props
-              }) => {
-                const newStyle = [style, { zIndex: data.length - index }];
-                return (
-                  <View style={newStyle} index={index} {...props}>
-                    {children}
-                  </View>
-                );
-              }}
-              renderItem={({ item, index: i }) => {
-                const inputRange = [i - 1, i, i + 1];
-                const translateX = scrollXAnimated.interpolate({
-                  inputRange,
-                  outputRange: [50, 0, -100],
-                });
-                const scale = scrollXAnimated.interpolate({
-                  inputRange,
-                  outputRange: [0.8, 1, 0.6],
-                });
-                const opacity = scrollXAnimated.interpolate({
-                  inputRange,
-                  outputRange: [1 - 1 / VISIBLE_ITEMS, 1, 0],
-                });
+          <FlatList
+            data={data}
+            keyExtractor={(item) => item.id}
+            horizontal
+            inverted
+            contentContainerStyle={{
+              flex: 1,
+              justifyContent: "center",
+              padding: SPACING,
+              marginTop: height <= 500 ? 16 : 24,
+            }}
+            scrollEnabled={false}
+            removeClippedSubviews={false}
+            CellRendererComponent={({
+              item,
+              index,
+              children,
+              style,
+              ...props
+            }) => {
+              const newStyle = [style, { zIndex: data.length - index }];
+              return (
+                <View style={newStyle} index={index} {...props}>
+                  {children}
+                </View>
+              );
+            }}
+            renderItem={({ item, index: i }) => {
+              const inputRange = [i - 1, i, i + 1];
+              const translateX = scrollXAnimated.interpolate({
+                inputRange,
+                outputRange: [50, 0, -100],
+              });
+              const scale = scrollXAnimated.interpolate({
+                inputRange,
+                outputRange: [0.8, 1, 0.6],
+              });
+              const opacity = scrollXAnimated.interpolate({
+                inputRange,
+                outputRange: [1 - 1 / VISIBLE_ITEMS, 1, 0],
+              });
 
-                return (
-                  <Animated.View
-                    style={{
-                      position: "absolute",
-                      left: -ITEM_WIDTH / 2.4,
-                      opacity,
-                      transform: [
-                        {
-                          translateX,
-                        },
-                        { scale },
-                      ],
+              return (
+                <Animated.View
+                  style={{
+                    position: "absolute",
+                    left: -ITEM_WIDTH / 2.4,
+                    opacity,
+                    transform: [
+                      {
+                        translateX,
+                      },
+                      { scale },
+                    ],
+                  }}
+                >
+                  <TouchableOpacity
+                    activeOpacity={0.9}
+                    onPress={() => {
+                      navigation.navigate("BookDetail", {
+                        item: data[index],
+                      });
                     }}
                   >
-                    <TouchableOpacity
-                      activeOpacity={0.9}
-                      onPress={() => {
-                        navigation.navigate("BookDetail", {
-                          item: data[index],
-                        });
-                      }}
-                    >
-                      <SharedElement id={`item.${item.id}.image`}>
-                        <Image
-                          source={{
-                            uri: item.volumeInfo?.imageLinks.smallThumbnail,
-                          }}
-                          style={{
-                            width: ITEM_WIDTH / 1.2,
-                            height: ITEM_HEIGHT / 1.2,
-                            borderRadius: 14,
-                          }}
-                          resizeMode="cover"
-                        />
-                      </SharedElement>
-                    </TouchableOpacity>
-                  </Animated.View>
-                );
-              }}
-            />
-          )}
+                    <SharedElement id={`item.${item.id}.image`}>
+                      <Image
+                        source={{
+                          uri: item.volumeInfo?.imageLinks.smallThumbnail,
+                        }}
+                        style={{
+                          width: ITEM_WIDTH / 1.2,
+                          height: ITEM_HEIGHT / 1.2,
+                          borderRadius: 14,
+                        }}
+                        resizeMode="cover"
+                      />
+                    </SharedElement>
+                  </TouchableOpacity>
+                </Animated.View>
+              );
+            }}
+          />
         </SafeAreaView>
       </FlingGestureHandler>
     </FlingGestureHandler>
