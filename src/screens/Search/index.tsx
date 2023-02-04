@@ -95,7 +95,7 @@ const Search = ({ navigation }) => {
   const searchBarAnimatedStyle = useAnimatedStyle(() => {
     return {
       height: interpolate(scrollY.value, [0, 40], [40, 0], Extrapolate.CLAMP),
-      opacity: interpolate(scrollY.value, [0, 30], [1, 0], Extrapolate.CLAMP),
+      opacity: interpolate(scrollY.value, [0, 20], [1, 0], Extrapolate.CLAMP),
     };
   });
 

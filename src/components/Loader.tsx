@@ -31,9 +31,9 @@ const Loader = () => {
     setTimeout(nextAnimation, 200);
   }
 
-  function onStartAnimation() {
+  function onStartAnimate() {
     function onThreeAnimation() {
-      onAnimate(animations.three, onStartAnimation);
+      onAnimate(animations.three, onStartAnimate);
     }
 
     function onTwoAnimation() {
@@ -43,14 +43,8 @@ const Loader = () => {
     onAnimate(animations.one, onTwoAnimation);
   }
 
-  //   React.useEffect(() => {
-  //     navigation.setOptions({
-  //       headerShown: false,
-  //     });
-  //   }, []);
-
   React.useEffect(() => {
-    onStartAnimation();
+    onStartAnimate();
   }, []);
 
   return (
@@ -58,7 +52,7 @@ const Loader = () => {
       style={{
         backgroundColor: darkMode ? "#010101" : "#f2f1f6",
       }}
-      className="flex-1 justify-center flex-row items-center space-x-3"
+      className="flex-1 justify-center flex-row items-center space-x-2"
     >
       <Animated.View
         style={{ transform: [{ translateY: animations.one }] }}

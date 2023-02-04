@@ -65,7 +65,9 @@ const OverflowItems = ({ data, scrollXAnimated, darkMode }) => {
                     },
                   ]}
                 >
-                  {item?.volumeInfo.authors}
+                  {item?.volumeInfo.authors
+                    ? item?.volumeInfo.authors[0]
+                    : null}
                 </Text>
                 <Text
                   className="font-fontMedium"

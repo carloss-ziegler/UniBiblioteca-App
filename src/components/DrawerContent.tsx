@@ -109,20 +109,26 @@ const CustomDrawer = ({ state, navigation, descriptors }: DrawerProps) => {
           />
 
           <DrawerItem
-            icon={<Feather name="settings" size={24} color="#f6f5f5" />}
-            title="Configurações"
-            onPress={() => navigation.navigate("Settings")}
-          />
-
-          <DrawerItem
-            icon={<Feather name="moon" size={24} color="#f6f5f5" />}
-            title="Tema escuro"
+            icon={
+              <Feather
+                name={darkMode ? "sun" : "moon"}
+                size={24}
+                color="#f6f5f5"
+              />
+            }
+            title="Alterar tema"
             onPress={() => {
               Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Success
               );
               bottomSheet?.current?.show();
             }}
+          />
+
+          <DrawerItem
+            icon={<Feather name="settings" size={24} color="#f6f5f5" />}
+            title="Configurações"
+            onPress={() => navigation.navigate("Settings")}
           />
         </View>
 
