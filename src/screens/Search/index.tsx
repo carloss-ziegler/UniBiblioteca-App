@@ -197,7 +197,14 @@ const Search = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        <View className="min-h-[100px] px-3 rounded-xl"></View>
+        <View className="p-3 rounded-xl flex-row flex-wrap">
+          <Tag text="testando tag" />
+          <Tag text="testando tag" />
+          <Tag text="testando" />
+          <Tag text="testando tag" />
+          <Tag text="testando tagggggggggggggg" />
+          <Tag text="the lord of the rings" />
+        </View>
 
         <Text
           style={{
@@ -289,7 +296,9 @@ const Search = ({ navigation }) => {
                   }}
                   className="font-fontMedium"
                 >
-                  {book.volumeInfo.authors[0]}
+                  {book?.volumeInfo.authors
+                    ? book?.volumeInfo.authors[0]
+                    : null}
                 </Text>
               </View>
             );

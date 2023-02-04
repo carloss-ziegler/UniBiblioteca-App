@@ -12,7 +12,7 @@ const DrawerNavigation = () => {
       screenOptions={{
         drawerStyle: { backgroundColor: "#1A80D9" },
         drawerType: "slide",
-        swipeEdgeWidth: 180,
+        swipeEdgeWidth: 60,
         overlayColor: "transparent",
         sceneContainerStyle: {
           backgroundColor: "#1A80D9",
