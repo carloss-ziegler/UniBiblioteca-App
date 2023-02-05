@@ -4,14 +4,16 @@ import {
   Image,
   StyleSheet,
   Dimensions,
-  ScrollView,
   TouchableOpacity,
+  useWindowDimensions,
+  ScrollView,
 } from "react-native";
 import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { SharedElement } from "react-navigation-shared-element/build/v4";
 import * as Animatable from "react-native-animatable";
 import AuthContext from "../../contexts/Auth/auth";
+import ProgressBar from "../../components/ProgressBar";
 
 const DELAY = 300;
 const DURATION = 400;
@@ -36,16 +38,58 @@ const fadeInTop = {
   },
 };
 
-const { height, width } = Dimensions.get("screen");
+const { width } = Dimensions.get("screen");
 
-const BookDetail = ({ navigation, route }) => {
+interface ScrollProps {
+  layoutMeasurement: {
+    height: number;
+  };
+  contentOffset: {
+    y: number;
+  };
+  contentSize: {
+    height: number;
+  };
+}
+
+interface Props {
+  navigation: any;
+  route: any;
+}
+
+const BookDetail = ({ navigation, route }: Props) => {
   const { darkMode } = React.useContext(AuthContext);
+  const scrollViewRef = React.useRef<ScrollView>(null);
   const { item } = route.params;
   const bottomSheet = React.useRef();
+  const [percentage, setPercentage] = React.useState<number>(0);
+
+  const { height } = useWindowDimensions();
+
+  function scrollPercentage({
+    contentOffset,
+    contentSize,
+    layoutMeasurement,
+  }: ScrollProps) {
+    const visibleContent = Math.ceil((height / contentSize.height) * 100);
+
+    const value =
+      ((layoutMeasurement.height + contentOffset.y) / contentSize.height) * 100;
+
+    setPercentage(value);
+  }
 
   React.useEffect(() => {
-    bottomSheet?.current?.show();
+    bottomSheet.current?.show();
   }, []);
+
+  function handleMoveToTop() {
+    scrollViewRef.current?.scrollTo({
+      x: 0,
+      y: 0,
+      animated: true,
+    });
+  }
 
   return (
     <View className="flex-1">
@@ -174,11 +218,14 @@ const BookDetail = ({ navigation, route }) => {
         </View>
 
         <ScrollView
-          stickyHeaderHiddenOnScroll={true}
+          ref={scrollViewRef}
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={{
-            paddingBottom: 24,
+            paddingBottom: 56,
             flexGrow: 1,
           }}
+          scrollEventThrottle={16}
+          onScroll={(event) => scrollPercentage(event.nativeEvent)}
         >
           <View
             style={{ backgroundColor: darkMode ? "#252525" : "#f6f5f5" }}
@@ -269,6 +316,8 @@ const BookDetail = ({ navigation, route }) => {
             </Text>
           </View>
         </ScrollView>
+
+        <ProgressBar onMoveTop={handleMoveToTop} value={percentage} />
       </Animatable.View>
     </View>
   );
