@@ -5,6 +5,7 @@ import Animated, {
   SharedValue,
   useAnimatedStyle,
 } from "react-native-reanimated";
+import { useNavigation } from "@react-navigation/native";
 
 interface HorizontalBookCardProps {
   item: Array<object>;
@@ -24,6 +25,8 @@ const HorizontalBookCard = ({
   x,
 }: HorizontalBookCardProps) => {
   if (item.length < 1) return null;
+
+  const navigation = useNavigation();
 
   const inputRange = [
     (index - 2) * (width * 0.55),
@@ -45,7 +48,14 @@ const HorizontalBookCard = ({
         width: width * 0.55,
       }}
     >
-      <TouchableOpacity activeOpacity={0.6}>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("BookDetail", {
+            item: item,
+          })
+        }
+        activeOpacity={0.6}
+      >
         <Animated.View
           style={[
             itemStyles,

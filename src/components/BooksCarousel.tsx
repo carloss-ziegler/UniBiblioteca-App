@@ -1,17 +1,25 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
-import { SharedElement } from "react-navigation-shared-element/build/v4";
 import AuthContext from "../contexts/Auth/auth";
+import { useNavigation } from "@react-navigation/native";
 
 const BooksCarousel = ({ book }) => {
   const { darkMode } = React.useContext(AuthContext);
+  const navigation = useNavigation();
 
   if (book.length < 1) {
     return null;
   }
 
   return (
-    <TouchableOpacity className="mt-1 mr-3">
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("BookDetail", {
+          item: book,
+        })
+      }
+      className="mt-2 mr-3"
+    >
       <Image
         source={{
           uri:

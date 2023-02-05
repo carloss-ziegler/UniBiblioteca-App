@@ -20,11 +20,14 @@ import Logo from "../../../assets/images/Logo2.png";
 import WhiteLogo from "../../../assets/images/LogoBranco.png";
 import { useDrawerProgress } from "@react-navigation/drawer";
 import Animated, {
+  Easing,
   Extrapolate,
   interpolate,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
+  withSpring,
+  withTiming,
 } from "react-native-reanimated";
 import * as Haptics from "expo-haptics";
 import * as Animatable from "react-native-animatable";
@@ -50,6 +53,7 @@ const Home = ({ navigation }) => {
   }, []);
   const scrollViewRef = React.useRef();
   const scrollY = useSharedValue(0);
+  const headerHeight = useSharedValue(80);
   const scrollHandler = useAnimatedScrollHandler((event) => {
     scrollY.value = event.contentOffset.y;
   });
@@ -117,6 +121,22 @@ const Home = ({ navigation }) => {
     },
   };
 
+  const headerStyles = useAnimatedStyle(() => {
+    const height = interpolate(
+      scrollY.value,
+      [0, 20, 30],
+      [80, 40, 0],
+      Extrapolate.CLAMP
+    );
+
+    const opacity = interpolate(scrollY.value, [0, 50], [1, 0]);
+
+    return {
+      height,
+      opacity,
+    };
+  });
+
   if (loading) {
     return <Loader />;
   }
@@ -124,17 +144,19 @@ const Home = ({ navigation }) => {
   return (
     <Animated.View style={[viewStyles]} className="flex-1">
       <Animated.View
-        style={{
-          paddingTop: 24,
-          height: 80,
-          borderBottomWidth: StyleSheet.hairlineWidth,
-          borderColor: darkMode ? "#66666699" : "#d8d8d8",
-          flexDirection: "row",
-          width: "100%",
-          alignItems: "center",
-          paddingHorizontal: 16,
-          backgroundColor: darkMode ? "#010101" : "#fafafa",
-        }}
+        style={[
+          {
+            paddingTop: 24,
+            height: 80,
+            borderBottomWidth: StyleSheet.hairlineWidth,
+            borderColor: darkMode ? "#66666699" : "#d8d8d8",
+            flexDirection: "row",
+            width: "100%",
+            alignItems: "center",
+            paddingHorizontal: 16,
+            backgroundColor: darkMode ? "#010101" : "#fafafa",
+          },
+        ]}
       >
         <TouchableOpacity onPress={() => navigation.openDrawer()}>
           <MaterialIcons
@@ -169,7 +191,7 @@ const Home = ({ navigation }) => {
         ref={scrollViewRef}
         onScroll={scrollHandler}
         keyboardDismissMode="on-drag"
-        bounces={false}
+        // bounces={false}
         contentContainerStyle={{
           paddingBottom: 30,
           flexGrow: 1,

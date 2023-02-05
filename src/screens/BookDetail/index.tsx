@@ -158,7 +158,9 @@ const BookDetail = ({ navigation, route }) => {
               delay={DELAY + 350}
               className="text-light-textGraySecondary font-fontMedium"
             >
-              {item.volumeInfo?.authors[0]}
+              {item?.volumeInfo.authors
+                ? item.volumeInfo.authors[0]
+                : "Sem autor disponível"}
             </Animatable.Text>
             <Animatable.Text
               animation={fadeInBottom}
@@ -166,7 +168,7 @@ const BookDetail = ({ navigation, route }) => {
               delay={DELAY + 500}
               className="text-light-textGraySecondary opacity-40 font-fontMedium"
             >
-              {item.volumeInfo?.publishedDate}
+              Publicado em {item.volumeInfo?.publishedDate}
             </Animatable.Text>
           </View>
         </View>
@@ -243,7 +245,9 @@ const BookDetail = ({ navigation, route }) => {
             </Text>
 
             <Text className="font-fontMedium text-light-textGraySecondary text-left mt-2">
-              {item.volumeInfo?.description}
+              {item?.volumeInfo.description
+                ? item?.volumeInfo.description
+                : "Não há informação disponível"}
             </Text>
           </View>
 

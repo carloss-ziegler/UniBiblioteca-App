@@ -79,7 +79,7 @@ const CustomDrawer = ({ state, navigation, descriptors }: DrawerProps) => {
       style={[viewStyles, { width: width * 0.6 }]}
       className="flex-1"
     >
-      <View className="p-4 flex-1 mt-16">
+      <View className="p-4 flex-1 py-10 mt-10">
         <Animated.View
           style={[viewStyles2]}
           className="flex-row items-center justify-between"
